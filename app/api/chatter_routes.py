@@ -1,8 +1,8 @@
 from flask import Blueprint, jsonify, request
 from sqlalchemy import or_
+from flask_login import current_user, login_required
 from app.models import Chatter, Location, db
 from app.forms.chatter_form import ChatterForm
-
 
 chatter_routes = Blueprint('chatters', __name__)
 
@@ -23,12 +23,13 @@ def get_chatter(id):
 
 # Create a new chatter
 @chatter_routes.route('/', methods=['POST'])
+@login_required
 def create_chatter():
     form = ChatterForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         chatter = Chatter(
-            user_id=form.data['user_id'],
+            user_id=current_user.id,
             content=form.data['content'],
         )
 
@@ -52,29 +53,31 @@ def create_chatter():
 
 # Update a chatter
 @chatter_routes.route('/<int:id>', methods=['PUT'])
+@login_required
 def update_chatter(id):
     form = ChatterForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         chatter = Chatter.query.get(id)
-        if chatter:
+        if chatter and chatter.user_id == current_user.id:
             chatter.content = form.data['content']
             db.session.commit()
             return jsonify(chatter.to_dict())
         else:
-            return {'error': 'Chatter not found'}, 404
+            return {'error': 'Chatter not found or unauthorized'}, 404
     return {'errors': form.errors}, 400
 
 # Delete a chatter
 @chatter_routes.route('/<int:id>', methods=['DELETE'])
+@login_required
 def delete_chatter(id):
     chatter = Chatter.query.get(id)
-    if chatter:
+    if chatter and chatter.user_id == current_user.id:
         db.session.delete(chatter)
         db.session.commit()
         return {'message': 'Chatter deleted'}
     else:
-        return {'error': 'Chatter not found'}, 404
+        return {'error': 'Chatter not found or unauthorized'}, 404
 
 # Search chatters by hashtag
 @chatter_routes.route('/hashtags/<hashtag>')
