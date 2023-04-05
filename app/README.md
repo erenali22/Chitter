@@ -14,7 +14,7 @@
 10. [Who to Follow](#who-to-follow)
 11. [Locations](#locations)
 
-## USER AUTHENTICATION/AUTHORIZATION
+## Authentication
 
 ### All endpoints that require authentication
 
@@ -1260,3 +1260,200 @@ Retrieve chatters containing a specific hashtag when a user clicks on a trending
     ```
 
 - Error response: none
+
+## Who to Follow
+
+### Get Recommended Users
+
+Retrieve a list of recommended users for the current user to follow based on their interests and connections.
+
+- Require Authentication: true
+- Request
+
+  - Method: GET
+  - URL: /api/who-to-follow
+  - Body: none
+
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    [
+      {
+        "id": 2,
+        "username": "JaneDoe",
+        "profile_picture": ""
+      },
+      {
+        "id": 3,
+        "username": "Alice",
+        "profile_picture": ""
+      }
+    ]
+    ```
+
+- Error response: none
+
+### Get User Profile by Username
+
+Retrieve the user's profile information, including chatters, followers, and following lists, when a recommended user is clicked.
+
+- Require Authentication: false
+- Request
+
+  - Method: GET
+  - URL: /api/users/:username/profile
+  - URL Parameters:
+    - `username`: The username of the clicked user
+  - Body: none
+
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "id": 2,
+      "username": "JaneDoe",
+      "profile_picture": "",
+      "chatters": [
+        {
+          "id": 1,
+          "content": "Hello, California!",
+          "created_at": "2023-03-22T14:34:56.789Z",
+          "updated_at": "2023-03-22T14:34:56.789Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 1,
+          "username": "JohnSmith",
+          "profile_picture": ""
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "username": "AbbyChoi",
+          "profile_picture": ""
+        }
+      ]
+    }
+    ```
+
+- Error response: User not found
+
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "message": "User not found",
+      "statusCode": 404
+    }
+    ```
+
+## Locations
+
+### Search for Locations
+
+Search for locations using the Google Maps API.
+
+- Require Authentication: true
+- Request
+
+  - Method: GET
+  - URL: /api/locations/search
+  - URL Parameters:
+    - `query`: The search query for the location
+  - Body: none
+
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    [
+      {
+        "id": 1,
+        "name": "San Francisco",
+        "formatted_address": "San Francisco, CA, USA"
+      },
+      {
+        "id": 2,
+        "name": "Los Angeles",
+        "formatted_address": "Los Angeles, CA, USA"
+      }
+    ]
+    ```
+
+- Error response: Google Maps API errors
+
+  - Status Code: 400
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "message": "Google Maps API error",
+      "statusCode": 400,
+      "errors": {
+        "google_maps_api": "An error occurred while searching for locations"
+      }
+    }
+    ```
+
+### Get Location by ID
+
+Retrieve location information by its ID.
+
+- Require Authentication: true
+- Request
+
+  - Method: GET
+  - URL: /api/locations/:id
+  - URL Parameters:
+    - `id`: The ID of the location
+  - Body: none
+
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "id": 1,
+      "name": "San Francisco",
+      "formatted_address": "San Francisco, CA, USA"
+    }
+    ```
+
+- Error response: Location not found
+
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "message": "Location not found",
+      "statusCode": 404
+    }
+    ```
