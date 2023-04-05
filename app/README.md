@@ -372,7 +372,7 @@ Updates the current user's profile with the provided information.
 
 ### Create a New Chatter
 
-Compose and post a new chatter with a character limit, optional hashtags, gif, emojis, and location.
+Compose and post a new chatter with a character limit, optional hashtags, mentions, gif, emojis, and location.
 
 - Require Authentication: true
 - Request
@@ -385,7 +385,7 @@ Compose and post a new chatter with a character limit, optional hashtags, gif, e
 
     ```json
     {
-      "content": "Hello, world! #chitter",
+      "content": "Hello, @JohnDoe! #chitter",
       "media_url": "",
       "gif_url": "",
       "location_id": 1
@@ -409,6 +409,12 @@ Compose and post a new chatter with a character limit, optional hashtags, gif, e
       "media_url": "",
       "gif_url": "",
       "location_id": 1,
+      "mentions": [
+        {
+          "username": "JohnDoe",
+          "user_id": 2
+        }
+      ],
       "rechatters_count": 0,
       "likes_count": 0,
       "quoted_rechatters_count": 0
@@ -463,6 +469,12 @@ Retrieve chatters for the current user's timeline, including chatters from peopl
         "media_url": "",
         "gif_url": "",
         "location_id": 1,
+        "mentions": [
+          {
+            "username": "JohnDoe",
+            "user_id": 2
+          }
+        ],
         "rechatters_count": 5,
         "likes_count": 10,
         "quoted_rechatters_count": 3
