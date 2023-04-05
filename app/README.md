@@ -12,8 +12,7 @@
 8. [Followers](#followers)
 9. [Trends](#trends)
 10. [Who to Follow](#who-to-follow)
-11. [Chatter Trends](#chatter-trends)
-12. [Locations](#locations)
+11. [Locations](#locations)
 
 ## USER AUTHENTICATION/AUTHORIZATION
 
@@ -409,7 +408,10 @@ Compose and post a new chatter with a character limit, optional hashtags, gif, e
       "updated_at": "2023-03-22T14:34:56.789Z",
       "media_url": "",
       "gif_url": "",
-      "location_id": 1
+      "location_id": 1,
+      "rechatters_count": 0,
+      "likes_count": 0,
+      "quoted_rechatters_count": 0
     }
     ```
 
@@ -460,7 +462,10 @@ Retrieve chatters for the current user's timeline, including chatters from peopl
         "updated_at": "2023-03-22T14:34:56.789Z",
         "media_url": "",
         "gif_url": "",
-        "location_id": 1
+        "location_id": 1,
+        "rechatters_count": 5,
+        "likes_count": 10,
+        "quoted_rechatters_count": 3
       }
     ]
     ```
@@ -500,7 +505,10 @@ Edit a chatter created by the current user.
       "updated_at": "2023-03-22T15:34:56.789Z",
       "media_url": "",
       "gif_url": "",
-      "location_id": 1
+      "location_id": 1,
+      "rechatters_count": 5,
+      "likes_count": 10,
+      "quoted_rechatters_count": 3
     }
     ```
 
@@ -517,6 +525,7 @@ Edit a chatter created by the current user.
       "statusCode": 404
     }
     ```
+
 
 ### Delete a Chatter
 
@@ -913,7 +922,7 @@ Edit rechatters.
       "chatter_id": 1,
       "content": "Updated rechatter content",
       "created_at": "2023-01-01T00:00:00Z",
-      "updated_at": "2023-01-01T00:00:00Z"
+      "updated_at": "2023-01-01T01:00:00Z"
     }
     ```
 
@@ -954,7 +963,7 @@ Undo rechatters.
       "statusCode": 404
     }
 
-## 7. Direct Messages
+## Direct Messages
 
 ### Send a New Direct Message
 
@@ -1057,7 +1066,197 @@ Edit a sent direct message.
       "recipient_id": 2,
       "content": "Updated message content",
       "created_at": "2023-01-01T00:00:00Z",
-      "updated_at": "2023-01-01T00:00:00Z"
+      "updated_at": "2023-01-01T01:00:00Z"
+    }
+    ```
+## Followers
+
+### Follow a User
+
+Follow another user.
+
+- Require Authentication: true
+- Request
+
+  - Method: POST
+  - URL: /api/follow/:user_id
+
+- Successful Response
+
+  - Status Code: 201
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "follower_id": 1,
+      "following_id": 2
     }
     ```
 
+### Unfollow a User
+
+Unfollow another user.
+
+- Require Authentication: true
+- Request
+
+  - Method: DELETE
+  - URL: /api/unfollow/:user_id
+
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "message": "Unfollowed successfully"
+    }
+    ```
+
+### Get a User's Followers
+
+Get a list of users who follow the specified user.
+
+- Require Authentication: true
+- Request
+
+  - Method: GET
+  - URL: /api/:user_id/followers
+
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    [
+      {
+        "id": 1,
+        "username": "User1",
+        "first_name": "John",
+        "last_name": "Doe"
+      }
+    ]
+    ```
+
+### Get a User's Following
+
+Get a list of users that the specified user is following.
+
+- Require Authentication: true
+- Request
+
+  - Method: GET
+  - URL: /api/:user_id/following
+
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    [
+      {
+        "id": 2,
+        "username": "User2",
+        "first_name": "Jane",
+        "last_name": "Doe"
+      }
+    ]
+    ```
+## Trends
+
+### Get Trending Hashtags
+
+Retrieve the top trending hashtags based on the number of occurrences in chatters within a specified time range.
+
+- Require Authentication: false
+- Request
+
+  - Method: GET
+  - URL: /api/trends
+  - Query Parameters:
+    - `time_range`: (optional) The time range for the trends, e.g., "1h" (1 hour), "1d" (1 day), "1w" (1 week)
+  - Body: none
+
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    [
+      {
+        "hashtag": "#trending",
+        "count": 1234
+      },
+      {
+        "hashtag": "#chitter",
+        "count": 567
+      }
+    ]
+    ```
+
+- Error response: none
+
+### Get Chatters by Trending Hashtag
+
+Retrieve chatters containing a specific hashtag when a user clicks on a trending topic.
+
+- Require Authentication: false
+- Request
+
+  - Method: GET
+  - URL: /api/trends/:hashtag/chatters
+  - URL Parameters:
+    - `hashtag`: The hashtag clicked by the user (without the '#')
+  - Body: none
+
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    [
+      {
+        "id": 1,
+        "user_id": 1,
+        "username": "JohnSmith",
+        "profile_picture": "",
+        "content": "Hello, world! #trending",
+        "created_at": "2023-03-22T14:34:56.789Z",
+        "updated_at": "2023-03-22T14:34:56.789Z",
+        "media_url": "",
+        "gif_url": "",
+        "location_id": 1
+      },
+      {
+        "id": 2,
+        "user_id": 2,
+        "username": "JaneDoe",
+        "profile_picture": "",
+        "content": "Check this out! #trending",
+        "created_at": "2023-03-22T14:35:56.789Z",
+        "updated_at": "2023-03-22T14:35:56.789Z",
+        "media_url": "",
+        "gif_url": "",
+        "location_id": 2
+      }
+    ]
+    ```
+
+- Error response: none
