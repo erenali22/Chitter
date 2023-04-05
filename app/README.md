@@ -809,3 +809,255 @@ Remove a reply to a chatter created by the current user.
     }
     ```
 
+## Rechatters
+
+### Create a Rechatter
+
+Rechatter or quote-chatter other users' content.
+
+- Require Authentication: true
+- Request
+
+  - Method: POST
+  - URL: /api/rechatters
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "chatter_id": 1,
+      "content": "Rechattered with a comment"
+    }
+    ```
+
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "id": 1,
+      "user_id": 1,
+      "chatter_id": 1,
+      "content": "Rechattered with a comment",
+      "created_at": "2023-01-01T00:00:00Z",
+      "updated_at": "2023-01-01T00:00:00Z"
+    }
+    ```
+
+### Get Rechatters for a Chatter
+
+Show all quote-chatters (rechatters with content) associated with a specific chatter.
+
+- Require Authentication: false
+- Request
+
+  - Method: GET
+  - URL: /api/chatters/:chatter_id/rechatters
+
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    [
+      {
+        "id": 1,
+        "user_id": 1,
+        "chatter_id": 1,
+        "content": "Rechattered with a comment",
+        "created_at": "2023-01-01T00:00:00Z",
+        "updated_at": "2023-01-01T00:00:00Z"
+      }
+    ]
+    ```
+
+
+### Update a Rechatter
+
+Edit rechatters.
+
+- Require Authentication: true
+- Request
+
+  - Method: PUT
+  - URL: /api/rechatters/:id
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "content": "Updated rechatter content"
+    }
+    ```
+
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "id": 1,
+      "user_id": 1,
+      "chatter_id": 1,
+      "content": "Updated rechatter content",
+      "created_at": "2023-01-01T00:00:00Z",
+      "updated_at": "2023-01-01T00:00:00Z"
+    }
+    ```
+
+### Delete a Rechatter
+
+Undo rechatters.
+
+- Require Authentication: true
+- Request
+
+  - Method: DELETE
+  - URL: /api/rechatters/:id
+
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "message": "Rechatter deleted",
+      "statusCode": 200
+    }
+    ```
+
+- Error response: Rechatter not found or not owned by the user
+
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "message": "Rechatter not found or not owned by the user",
+      "statusCode": 404
+    }
+
+## 7. Direct Messages
+
+### Send a New Direct Message
+
+Send a new direct message from one user to another.
+
+- Require Authentication: true
+- Request
+
+  - Method: POST
+  - URL: /api/dm
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "recipient_id": 2,
+      "content": "Hello, how are you?"
+    }
+    ```
+
+- Successful Response
+
+  - Status Code: 201
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "id": 1,
+      "sender_id": 1,
+      "recipient_id": 2,
+      "content": "Hello, how are you?",
+      "created_at": "2023-01-01T00:00:00Z",
+      "updated_at": "2023-01-01T00:00:00Z"
+    }
+    ```
+
+### Get Direct Message Conversation
+
+Display direct messages in a conversation view between two users.
+
+- Require Authentication: true
+- Request
+
+  - Method: GET
+  - URL: /api/dm/conversation/:user_id
+
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    [
+      {
+        "id": 1,
+        "sender_id": 1,
+        "recipient_id": 2,
+        "content": "Hello, how are you?",
+        "created_at": "2023-01-01T00:00:00Z",
+        "updated_at": "2023-01-01T00:00:00Z"
+      }
+    ]
+    ```
+
+### Update a Direct Message
+
+Edit a sent direct message.
+
+- Require Authentication: true
+- Request
+
+  - Method: PUT
+  - URL: /api/dm/:dm_id
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "content": "Updated message content"
+    }
+    ```
+
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "id": 1,
+      "sender_id": 1,
+      "recipient_id": 2,
+      "content": "Updated message content",
+      "created_at": "2023-01-01T00:00:00Z",
+      "updated_at": "2023-01-01T00:00:00Z"
+    }
+    ```
+
