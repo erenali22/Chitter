@@ -8,4 +8,3 @@ class ChatterForm(FlaskForm):
     location_name = StringField('location_name', validators=[Optional()])
     latitude = FloatField('latitude', validators=[Optional()])
     longitude = FloatField('longitude', validators=[Optional()])
-
