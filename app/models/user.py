@@ -2,6 +2,7 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from .chatter import Chatter
+from datetime import datetime
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -13,6 +14,11 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
+    profile_picture = db.Column(db.String, default="https://cataas.com/cat")
+    bio = db.Column(db.String, nullable=True)
+    location = db.Column(db.String, nullable=True)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, nullable=True)
 
     chatters = db.relationship('Chatter', back_populates='user', cascade='all, delete-orphan')
 
@@ -31,5 +37,10 @@ class User(db.Model, UserMixin):
         return {
             'id': self.id,
             'username': self.username,
-            'email': self.email
+            'email': self.email,
+            'profile_picture': self.profile_picture,
+            'bio': self.bio,
+            'location': self.location,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at
         }
