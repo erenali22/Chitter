@@ -4,6 +4,11 @@ from flask_login import UserMixin
 from .chatter import Chatter
 from datetime import datetime
 
+follows = db.Table(
+    'follows',
+    db.Column('follower_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('followed_id', db.Integer, db.ForeignKey('users.id'))
+)
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
@@ -21,7 +26,15 @@ class User(db.Model, UserMixin):
     updated_at = db.Column(db.DateTime, nullable=True)
 
     chatters = db.relationship('Chatter', back_populates='user', cascade='all, delete-orphan')
-
+    followers = db.relationship(
+        'User',
+        secondary=follows,
+        primaryjoin=(id == follows.c.followed_id),
+        secondaryjoin=(id == follows.c.follower_id),
+        backref=db.backref('following', lazy='dynamic'),
+        lazy='dynamic'
+    )
+    
     @property
     def password(self):
         return self.hashed_password
