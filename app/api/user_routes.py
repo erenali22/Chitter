@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
-from flask_login import login_required
-from app.models import User, db
+from flask_login import login_required, current_user
+from app.models import db, User, Chatter
 from app.forms import UpdateProfileForm
 
 user_routes = Blueprint('users', __name__)
@@ -29,7 +29,7 @@ def update_user(id):
     """
     Update a user's information
     """
-    form = UpdateProfileForm()
+    form = UpdateProfileForm(user_id=current_user.id, **request.form)
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         user = User.query.get(id)
@@ -39,8 +39,22 @@ def update_user(id):
             user.profile_picture = form.data.get('profile_picture', user.profile_picture)
             user.bio = form.data.get('bio', user.bio)
             user.location = form.data.get('location', user.location)
+
+            if form.data['new_password']:
+                user.password = form.data['new_password']
+
             db.session.commit()
             return user.to_dict()
         else:
             return {'error': 'User not found'}, 404
     return {'errors': form.errors}, 400
+
+@user_routes.route('/feed')
+@login_required
+def user_feed():
+    """
+    Fetches the Chatters from the users that the current user follows
+    """
+    following_ids = [user.id for user in current_user.following]
+    chatters = Chatter.query.filter(Chatter.user_id.in_(following_ids)).order_by(Chatter.created_at.desc()).all()
+    return {'chatters': [chatter.to_dict() for chatter in chatters]}
