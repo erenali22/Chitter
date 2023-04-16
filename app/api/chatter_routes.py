@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 from sqlalchemy import or_
 from flask_login import current_user, login_required
 from app.models import Chatter, Location, Like, db
-from app.forms.chatter_form import ChatterForm
+from app.forms import ChatterForm
 
 chatter_routes = Blueprint('chatters', __name__)
 

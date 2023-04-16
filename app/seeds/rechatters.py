@@ -33,7 +33,6 @@ def seed_rechatters(num_rechatters=100):
 
     db.session.commit()
 
-
 def undo_rechatters():
     if environment == "production":
         db.session.execute(

@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from app.models import db, Rechatter, Chatter, User
-from app.forms.rechatter_form import RechatterForm
+from app.forms import RechatterForm
 from flask_login import current_user, login_required
 
 rechatter_routes = Blueprint('rechatters', __name__)
@@ -55,4 +55,3 @@ def delete_rechatter(rechatter_id):
     db.session.commit()
 
     return jsonify(message="Rechatter deleted", statusCode=200), 200
-
