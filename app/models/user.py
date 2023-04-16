@@ -26,6 +26,7 @@ class User(db.Model, UserMixin):
     updated_at = db.Column(db.DateTime, nullable=True)
 
     chatters = db.relationship('Chatter', back_populates='user', cascade='all, delete-orphan')
+    replies = db.relationship('Reply', back_populates='user', cascade='all, delete-orphan')
     followers = db.relationship(
         'User',
         secondary=follows,

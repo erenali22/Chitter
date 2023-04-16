@@ -36,10 +36,10 @@ class Chatter(db.Model):
     user = db.relationship('User', back_populates='chatters')
 
     likes = db.relationship('Like', back_populates='chatter')
-    replies = db.relationship('Reply', back_populates='chatter')
+    replies = db.relationship('Reply', back_populates='chatter', cascade='all, delete-orphan')
     rechatters = db.relationship('Rechatter', back_populates='chatter')
     hashtags = db.relationship('Hashtag', secondary='chatter_hashtags', back_populates='chatters')
-    
+
     def __repr__(self):
         return f'<Chatter id={self.id} user_id={self.user_id} content="{self.content[:20]}">'
 
