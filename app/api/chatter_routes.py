@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from sqlalchemy import or_
 from flask_login import current_user, login_required
-from app.models import Chatter, Location, db
+from app.models import Chatter, Location, Like, db
 from app.forms.chatter_form import ChatterForm
 
 chatter_routes = Blueprint('chatters', __name__)
@@ -84,3 +84,32 @@ def delete_chatter(id):
 def search_hashtags(hashtag):
     chatters = Chatter.query.filter(Chatter.content.like(f'%#{hashtag}%')).all()
     return jsonify([chatter.to_dict() for chatter in chatters])
+
+# Like a Chatter
+@chatter_routes.route('/<int:id>/like', methods=['POST'])
+@login_required
+def like_chatter(id):
+    chatter = Chatter.query.get(id)
+    if chatter:
+        like = Like(user_id=current_user.id, chatter_id=id)
+        db.session.add(like)
+        db.session.commit()
+        return {'message': 'Chatter liked'}
+    else:
+        return {'error': 'Chatter not found'}, 404
+
+# Unlike a Chatter
+@chatter_routes.route('/<int:id>/unlike', methods=['POST'])
+@login_required
+def unlike_chatter(id):
+    chatter = Chatter.query.get(id)
+    if chatter:
+        like = Like.query.filter_by(user_id=current_user.id, chatter_id=id).first()
+        if like:
+            db.session.delete(like)
+            db.session.commit()
+            return {'message': 'Chatter unliked'}
+        else:
+            return {'error': 'Like not found'}, 404
+    else:
+        return {'error': 'Chatter not found'}, 404
