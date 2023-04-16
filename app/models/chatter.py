@@ -39,7 +39,7 @@ class Chatter(db.Model):
     replies = db.relationship('Reply', back_populates='chatter')
     rechatters = db.relationship('Rechatter', back_populates='chatter')
     hashtags = db.relationship('Hashtag', secondary='chatter_hashtags', back_populates='chatters')
-
+    
     def __repr__(self):
         return f'<Chatter id={self.id} user_id={self.user_id} content="{self.content[:20]}">'
 

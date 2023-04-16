@@ -15,6 +15,7 @@ class User(db.Model, UserMixin):
     hashed_password = db.Column(db.String(255), nullable=False)
 
     chatters = db.relationship('Chatter', back_populates='user', cascade='all, delete-orphan')
+    liked_chatters = db.relationship('Chatter', secondary='likes', back_populates='liked_by_users')
 
     @property
     def password(self):
@@ -33,4 +34,3 @@ class User(db.Model, UserMixin):
             'username': self.username,
             'email': self.email
         }
-
