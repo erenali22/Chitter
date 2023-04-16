@@ -1,4 +1,4 @@
-from app.models import db, Chatter, Location, User
+from app.models import db, Chatter, Location, User, environment, SCHEMA
 from faker import Faker
 from emoji import emojize
 import random
@@ -55,6 +55,13 @@ def seed_chatters(num_chatters=100):
     db.session.commit()
 
 def undo_chatters():
-    db.session.execute('TRUNCATE chatters RESTART IDENTITY CASCADE;')
-    db.session.execute('TRUNCATE locations RESTART IDENTITY CASCADE;')
+    if environment == "production":
+        db.session.execute(
+            f"TRUNCATE table {SCHEMA}.chatters RESTART IDENTITY CASCADE;")
+        db.session.execute(
+            f"TRUNCATE table {SCHEMA}.locations RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute("DELETE FROM chatters")
+        db.session.execute("DELETE FROM locations")
+
     db.session.commit()

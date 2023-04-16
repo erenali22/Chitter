@@ -1,4 +1,4 @@
-from app.models import db, Reply, Chatter, User
+from app.models.reply import db, Reply, Chatter, User, environment, SCHEMA
 from faker import Faker
 from emoji import emojize
 import random
@@ -28,5 +28,10 @@ def seed_replies(num_replies=50):
     db.session.commit()
 
 def undo_replies():
-    db.session.execute('TRUNCATE replies RESTART IDENTITY CASCADE;')
+    if environment == "production":
+        db.session.execute(
+            f"TRUNCATE table {SCHEMA}.replies RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute("DELETE FROM replies")
+
     db.session.commit()
