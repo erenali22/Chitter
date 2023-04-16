@@ -50,14 +50,30 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password, password)
 
     def follow(self, user):
+        """
+        Follow the given user if not already following.
+
+        :param user: User instance to follow
+        """
         if not self.is_following(user):
             self.following.append(user)
 
     def unfollow(self, user):
+        """
+        Unfollow the given user if currently following.
+
+        :param user: User instance to unfollow
+        """
         if self.is_following(user):
             self.following.remove(user)
 
     def is_following(self, user):
+        """
+        Check if the current user is following the given user.
+
+        :param user: User instance to check if being followed
+        :return: True if following, False otherwise
+        """
         return self.following.filter(follows.c.followed_id == user.id).count() > 0
 
     def to_dict(self):

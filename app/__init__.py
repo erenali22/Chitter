@@ -10,6 +10,7 @@ from .api.auth_routes import auth_routes
 from .api.chatter_routes import chatter_routes
 from .api.reply_routes import reply_routes
 from .api.rechatter_routes import rechatter_routes
+from .api.follow_routes import follow_routes
 from .seeds import seed_commands
 from .config import Config
 
@@ -34,6 +35,7 @@ app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(chatter_routes, url_prefix='/api/chatters')
 app.register_blueprint(reply_routes, url_prefix='/api/replies')
 app.register_blueprint(rechatter_routes, url_prefix='/api/rechatters')
+app.register_blueprint(follow_routes, url_prefix='/api/follow')
 
 db.init_app(app)
 Migrate(app, db)

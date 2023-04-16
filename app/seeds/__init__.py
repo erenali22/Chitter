@@ -3,6 +3,7 @@ from .users import seed_users, undo_users
 from .chatters import seed_chatters, undo_chatters
 from .replies import seed_replies, undo_replies
 from .rechatters import seed_rechatters, undo_rechatters
+from .followers import seed_followers, undo_followers
 
 from app.models.db import db, environment, SCHEMA
 
@@ -29,6 +30,8 @@ def seed():
             f"TRUNCATE table {SCHEMA}.rechatters RESTART IDENTITY CASCADE;")
         db.session.execute(
             f"TRUNCATE table {SCHEMA}.replies RESTART IDENTITY CASCADE;")
+        db.session.execute(
+            f"TRUNCATE table {SCHEMA}.follows RESTART IDENTITY CASCADE;")
         db.session.commit()
 
 
@@ -36,6 +39,7 @@ def seed():
     seed_chatters()
     seed_replies()
     seed_rechatters()
+    seed_followers()
     # Add other seed functions here
 
 
@@ -46,4 +50,5 @@ def undo():
     undo_chatters()
     undo_rechatters()
     undo_replies()
+    undo_followers()
     # Add other undo functions here
