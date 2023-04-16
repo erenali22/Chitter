@@ -19,7 +19,7 @@ gif_urls = [
 def seed_chatters(num_chatters=100):
     for _ in range(num_chatters):
         # Random chatter with an emoji and a hashtag
-        content = f"{fake.sentence()} {emojize(random.choice(emojis), use_aliases=True)}"
+        content = f"{fake.text()} {emojize(random.choice(emojis), use_aliases=True)}"
         if random.random() < 0.5:
             content += f" #{fake.word()}"
 
@@ -44,7 +44,7 @@ def seed_chatters(num_chatters=100):
         # Create a new Chatter
         chatter = Chatter(
             user_id=random.randint(1, 40),
-            content=content,
+            content=content[:280],
             location_id=location.id,
             media_url=media_url,
             gif_url=gif_url,
