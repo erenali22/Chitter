@@ -34,7 +34,9 @@ class User(db.Model, UserMixin):
         backref=db.backref('following', lazy='dynamic'),
         lazy='dynamic'
     )
-    
+
+    likes = db.relationship('Like', back_populates='user')
+
     @property
     def password(self):
         return self.hashed_password
