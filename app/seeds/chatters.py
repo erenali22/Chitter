@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 
 fake = Faker()
 
-emojis = [':smile:', ':grin:', ':wink:',':pleading_face:', ':dizzy:', ':hand_with_index_finger_and_thumb_crossed:', ':laughing:', ':heart:',':thumbs_up:',':smiling_face_with_halo:',':folded_hands:',':hot_beverage:',':partying_face:',':rainbow:']
+emojis = [':smile:', ':grin:', ':wink:',':pleading_face:', ':dizzy:', ':hand_with_index_finger_and_thumb_crossed:', ':laughing:', ':heart:',':thumbs_up:',':smiling_face_with_halo:',':folded_hands:',':hot_beverage:',':partying_face:',':rainbow:', ':heart_eyes:', ':sunglasses:', ':thinking_face:', ':star-struck:', ':face_with_rolling_eyes:', ':fire:', ':exploding_head:', ':money_mouth_face:', ':clown_face:', ':alien:', ':skull_and_crossbones:', ':robot_face:', ':kissing_face:', ':musical_note:', ':unicorn_face:', ':crown:']
 
 gif_urls = [
     "https://media.giphy.com/media/3ohfFrjeqcGR9XYX4I/giphy.gif",
