@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 from app.models import db, User, Chatter
 from app.forms import UpdateProfileForm
+from .utils import validation_errors_to_error_messages
 
 user_routes = Blueprint('users', __name__)
 
@@ -47,7 +48,7 @@ def update_user(id):
             return user.to_dict()
         else:
             return {'error': 'User not found'}, 404
-    return {'errors': form.errors}, 400
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 400
 
 @user_routes.route('/feed')
 @login_required

@@ -32,7 +32,7 @@ def seed_users():
     db.session.bulk_save_objects(users)
     db.session.commit()
 
-    for i in range(1, 41): 
+    for i in range(1, 41):
         following = set()
         for _ in range(random.randint(1, 5)):
             follow_id = random.randint(1, 40)

@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from app.models import db, Rechatter, Chatter, User
 from app.forms import RechatterForm
 from flask_login import current_user, login_required
+from .utils import validation_errors_to_error_messages
 
 rechatter_routes = Blueprint('rechatters', __name__)
 
@@ -20,7 +21,8 @@ def create_rechatter():
         db.session.add(rechatter)
         db.session.commit()
         return jsonify(**rechatter.to_dict()), 200
-    return jsonify(errors=form.errors), 400
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 400
+
 
 # Get Rechatters for a Chatter
 @rechatter_routes.route('/chatters/<int:chatter_id>', methods=['GET'])

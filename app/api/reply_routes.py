@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from app.models import db, Chatter, Reply, User
 from app.forms import ReplyForm
 from flask_login import current_user, login_required
+from .utils import validation_errors_to_error_messages
 
 reply_routes = Blueprint('replies', __name__)
 
@@ -24,7 +25,7 @@ def create_reply(chatter_id):
         db.session.add(reply)
         db.session.commit()
         return jsonify(message="Reply created", **reply.to_dict()), 201
-    return jsonify(errors=form.errors), 400
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 400
 
 # Get Replies for a Chatter
 @reply_routes.route('/chatters/<int:chatter_id>/replies', methods=['GET'])
@@ -46,7 +47,7 @@ def update_reply(reply_id):
 
     form = ReplyForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-    form.process(data=request.json) 
+    form.process(data=request.json)
 
     if form.validate_on_submit():
         content = form.content.data

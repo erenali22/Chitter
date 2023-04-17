@@ -3,6 +3,7 @@ from sqlalchemy import or_
 from flask_login import current_user, login_required
 from app.models import Chatter, Location, Like, db
 from app.forms import ChatterForm
+from .utils import validation_errors_to_error_messages
 
 chatter_routes = Blueprint('chatters', __name__)
 
@@ -49,7 +50,7 @@ def create_chatter():
         db.session.commit()
         return jsonify(chatter.to_dict()), 201
 
-    return {'errors': form.errors}, 400
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 400
 
 # Update a chatter
 @chatter_routes.route('/<int:id>', methods=['PUT'])
@@ -65,7 +66,7 @@ def update_chatter(id):
             return jsonify(chatter.to_dict())
         else:
             return {'error': 'Chatter not found or unauthorized'}, 404
-    return {'errors': form.errors}, 400
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 400
 
 # Delete a chatter
 @chatter_routes.route('/<int:id>', methods=['DELETE'])
