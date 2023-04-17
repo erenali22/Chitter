@@ -1,9 +1,9 @@
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from app.models import Base
+from .db import db, environment, SCHEMA, add_prefix_for_prod
 
-class DM(Base):
+class DM(db.Model):
     __tablename__ = 'dms'
 
     id = Column(Integer, primary_key=True)

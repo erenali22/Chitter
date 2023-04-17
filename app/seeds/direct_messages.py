@@ -1,4 +1,4 @@
-from app.models import db,User, DM, environment, SCHEMA
+from app.models import db, User, DM, environment, SCHEMA
 
 def seed_dms():
     users = User.query.order_by(User.id).limit(4).all()

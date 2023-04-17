@@ -1,4 +1,4 @@
-from app.models.reply import db, Reply, Chatter, User, environment, SCHEMA
+from app.models import db, Reply, Chatter, User, environment, SCHEMA
 from faker import Faker
 from emoji import emojize
 import random
