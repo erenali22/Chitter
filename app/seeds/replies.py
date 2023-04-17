@@ -16,7 +16,7 @@ def seed_replies(num_replies=50):
         content = fake.sentence()
 
         if random.random() < 0.5:
-            content += ' ' + emojize(random.choice(emojis), use_aliases=True)
+            content += ' ' + emojize(random.choice(emojis))
 
         reply = Reply(
             user_id=random.randint(min_user_id, max_user_id),

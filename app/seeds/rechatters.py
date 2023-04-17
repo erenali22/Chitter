@@ -19,7 +19,7 @@ def seed_rechatters(num_rechatters=100):
 
         content = fake.text(max_nb_chars=280)
         if random.random() < 0.5:
-            content += f" {emojize(random.choice(emojis), use_aliases=True)}"
+            content += f" {emojize(random.choice(emojis))}"
 
         if random.random() < 0.1:
             content += f" #{fake.word()}"
