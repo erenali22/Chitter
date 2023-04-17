@@ -4,6 +4,9 @@ from datetime import datetime
 class Location(db.Model):
     __tablename__ = 'locations'
 
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
@@ -26,13 +29,13 @@ class Chatter(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     content = db.Column(db.String(280), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=True)
     media_url = db.Column(db.String, nullable=True) #for media upload with S3
     gif_url = db.Column(db.String, nullable=True) #for Giphy API
-    location_id = db.Column(db.Integer, db.ForeignKey('locations.id'), nullable=True)
+    location_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('locations.id')), nullable=True)
 
     location = db.relationship('Location', back_populates='chatters')
     user = db.relationship('User', back_populates='chatters')

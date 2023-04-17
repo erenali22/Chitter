@@ -6,9 +6,10 @@ from datetime import datetime
 
 follows = db.Table(
     'follows',
-    db.Column('follower_id', db.Integer, db.ForeignKey('users.id')),
-    db.Column('followed_id', db.Integer, db.ForeignKey('users.id'))
+    db.Column('follower_id', db.Integer, db.ForeignKey(add_prefix_for_prod('users.id'))),
+    db.Column('followed_id', db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')))
 )
+
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
@@ -26,6 +27,7 @@ class User(db.Model, UserMixin):
     updated_at = db.Column(db.DateTime, nullable=True)
 
     chatters = db.relationship('Chatter', back_populates='user', cascade='all, delete-orphan')
+    rechatters = db.relationship('Rechatter', back_populates='user',cascade='all, delete-orphan')
     replies = db.relationship('Reply', back_populates='user', cascade='all, delete-orphan')
     followers = db.relationship(
         'User',
@@ -87,3 +89,4 @@ class User(db.Model, UserMixin):
             'created_at': self.created_at,
             'updated_at': self.updated_at
         }
+

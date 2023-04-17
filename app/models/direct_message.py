@@ -6,9 +6,12 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 class DM(db.Model):
     __tablename__ = 'dms'
 
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
     id = Column(Integer, primary_key=True)
-    sender_id = Column(Integer, ForeignKey('users.id'), nullable=False)
-    receiver_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    sender_id = Column(Integer, ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
+    receiver_id = Column(Integer, ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     content = Column(String(1000), nullable=False)
     timestamp = Column(DateTime, default=datetime.utcnow, nullable=False)
 
@@ -23,3 +26,4 @@ class DM(db.Model):
             "content": self.content,
             "timestamp": self.timestamp.isoformat(),
         }
+
