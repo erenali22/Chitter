@@ -2,7 +2,7 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
 
 class Rechatter(db.Model):
-    __tablename__ = 'rechatter'
+    __tablename__ = 'rechatters'
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
@@ -14,6 +14,9 @@ class Rechatter(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
+    chatter = db.relationship('Chatter', back_populates='rechatters')
+    user = db.relationship('User', back_populates='rechatters')
+    
     def to_dict(self):
         return {
             "id": self.id,
