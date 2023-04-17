@@ -18,3 +18,12 @@ class Reply(db.Model):
     chatter = db.relationship('Chatter', back_populates='replies')
     user = db.relationship('User', back_populates='replies')
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'content': self.content,
+            'user_id': self.user_id,
+            'chatter_id': self.chatter_id,
+            'created_at': self.created_at.isoformat(),
+            'updated_at': self.updated_at.isoformat(),
+        }

@@ -6,6 +6,14 @@ from .utils import validation_errors_to_error_messages
 
 user_routes = Blueprint('users', __name__)
 
+# @user_routes.route('/check-auth')
+# def check_auth():
+#     if current_user.is_authenticated:
+#         print("Current User (Check Auth):", current_user)
+#         return {"message": "Authenticated"}
+#     else:
+#         return {"message": "Not Authenticated"}
+
 @user_routes.route('/')
 @login_required
 def users():
