@@ -12,7 +12,9 @@ from .api.reply_routes import reply_routes
 from .api.rechatter_routes import rechatter_routes
 from .api.follow_routes import follow_routes
 from .api.dm_routes import dm_routes
-from .api.search_routes import search_routes as search_routes_blueprint
+from .api.search_routes import search_routes
+from .api.image_routes import image_routes
+from .api.maps_routes import maps_routes
 from .seeds import seed_commands
 from .config import Config
 
@@ -39,8 +41,9 @@ app.register_blueprint(reply_routes, url_prefix='/api/replies')
 app.register_blueprint(rechatter_routes, url_prefix='/api/rechatters')
 app.register_blueprint(follow_routes, url_prefix='/api/follow')
 app.register_blueprint(dm_routes, url_prefix='/api/dms')
-app.register_blueprint(search_routes_blueprint, url_prefix='/api/search')
-
+app.register_blueprint(search_routes, url_prefix='/api/search')
+app.register_blueprint(image_routes, url_prefix='/api/images')
+app.register_blueprint(maps_routes, url_prefix='/api/maps')
 
 db.init_app(app)
 Migrate(app, db)
