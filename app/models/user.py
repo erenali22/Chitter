@@ -37,7 +37,7 @@ class User(db.Model, UserMixin):
     )
 
     likes = db.relationship('Like', back_populates='user')
-
+    images = db.relationship("Image", back_populates="user")
     @property
     def password(self):
         return self.hashed_password
