@@ -1,8 +1,9 @@
-from flask import Blueprint, jsonify, request, render_template, redirect, url_for, flash
+from flask import Blueprint, jsonify, request
 from sqlalchemy import or_
 from flask_login import current_user, login_required
 from app.models import Chatter, Location, Like, db
 from app.forms.chatter_form import ChatterForm
+
 
 chatter_routes = Blueprint('chatters', __name__)
 
@@ -22,23 +23,34 @@ def get_chatter(id):
         return {'error': 'Chatter not found'}, 404
 
 # Create a new chatter
-@chatter_routes.route('/create', methods=['GET', 'POST'])
+@chatter_routes.route('/', methods=['POST'])
 @login_required
 def create_chatter():
     form = ChatterForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         chatter = Chatter(
             user_id=current_user.id,
             content=form.data['content'],
         )
 
+        # # Check if location data is provided and create a location
+        # if form.data['location_name'] and form.data['latitude'] and form.data['longitude']:
+        #     location = Location(
+        #         name=form.data['location_name'],
+        #         latitude=form.data['latitude'],
+        #         longitude=form.data['longitude'],
+        #     )
+        #     db.session.add(location)
+        #     db.session.flush()  # Flush the session to get the location ID
+
+        #     chatter.location_id = location.id
+
         db.session.add(chatter)
         db.session.commit()
-        flash('Chatter has been posted!', 'success')
-        return redirect(url_for('chatters.get_chatters'))
+        return jsonify(chatter.to_dict()), 201
 
-    return render_template('create_chatter.html', form=form, errors=form.errors)
-
+    return {'errors': form.errors}, 400
 
 # Update a chatter
 @chatter_routes.route('/<int:id>', methods=['PUT'])
