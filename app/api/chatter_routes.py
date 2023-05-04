@@ -56,8 +56,14 @@ def create_chatter():
 @chatter_routes.route('/<int:id>', methods=['PUT'])
 @login_required
 def update_chatter(id):
-    form = ChatterForm()
+    json_data = request.get_json()
+
+    if 'content' not in json_data:
+        return {'error': 'Content is required'}, 400
+
+    form = ChatterForm(data=json_data)
     form['csrf_token'].data = request.cookies['csrf_token']
+
     if form.validate_on_submit():
         chatter = Chatter.query.get(id)
         if chatter and chatter.user_id == current_user.id:
@@ -66,6 +72,7 @@ def update_chatter(id):
             return jsonify(chatter.to_dict())
         else:
             return {'error': 'Chatter not found or unauthorized'}, 404
+
     return {'errors': form.errors}, 400
 
 # Delete a chatter
