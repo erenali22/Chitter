@@ -8,7 +8,7 @@ import { ModalProvider, Modal } from "./context/Modal";
 import configureStore from "./store";
 import * as sessionActions from "./store/session";
 import App from "./App";
-import { UserContextProvider } from './contexts/UserContext';
+// import { UserContextProvider } from './contexts/UserContext';
 
 const store = configureStore();
 
@@ -33,11 +33,17 @@ function Root() {
 	);
 }
 
+// ReactDOM.render(
+//   <React.StrictMode>
+//     <UserContextProvider>
+//       <App />
+//     </UserContextProvider>
+//   </React.StrictMode>,
+//   document.getElementById('root')
+// );
 ReactDOM.render(
-  <React.StrictMode>
-    <UserContextProvider>
-      <App />
-    </UserContextProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+	<React.StrictMode>
+	  <Root />
+	</React.StrictMode>,
+	document.getElementById('root')
+  );
