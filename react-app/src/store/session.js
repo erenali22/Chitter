@@ -15,19 +15,20 @@ const initialState = { user: null };
 
 export const authenticate = () => async (dispatch) => {
 	const response = await fetch("/api/auth/", {
-		headers: {
-			"Content-Type": "application/json",
-		},
+	  headers: {
+		"Content-Type": "application/json",
+	  },
 	});
 	if (response.ok) {
-		const data = await response.json();
-		if (data.errors) {
-			return;
-		}
+	  const data = await response.json();
+	  if (data.errors) {
+		return;
+	  }
 
-		dispatch(setUser(data));
+	  dispatch(setUser(data));
+	  return data;
 	}
-};
+  };
 
 export const login = (email, password) => async (dispatch) => {
 	const response = await fetch("/api/auth/login", {

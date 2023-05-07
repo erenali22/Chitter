@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import ChatterItem from './ChatterItem';
 import ReplyList from '../Reply/ReplyList';
 import ReplyForm from '../Reply/ReplyForm';
+import UserContext from '../../context/UserContext';
 
 const SingleChatterPage = ({ match }) => {
   const [chatter, setChatter] = useState(null);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     const fetchChatter = async () => {
@@ -22,7 +24,7 @@ const SingleChatterPage = ({ match }) => {
 
   return (
     <div>
-      {chatter && <ChatterItem chatter={chatter} />}
+      {chatter && <ChatterItem chatter={chatter} currentUserId={user && user.id} />}
       <ReplyList chatterId={match.params.id} />
       <ReplyForm chatterId={match.params.id} />
     </div>
@@ -30,4 +32,3 @@ const SingleChatterPage = ({ match }) => {
 };
 
 export default SingleChatterPage;
-

@@ -8,16 +8,22 @@ import Navigation from "./components/Navigation";
 import ChatterList from './components/Chatter/ChatterList';
 import ChatterForm from './components/Chatter/ChatterForm';
 import SingleChatterPage from './components/Chatter/SingleChatterPage';
+import UserContext from './context/UserContext';
 
 function App() {
   const dispatch = useDispatch();
+  const [user, setUser] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
-    dispatch(authenticate()).then(() => setIsLoaded(true));
+    dispatch(authenticate()).then((userData) => {
+      setUser(userData);
+      setIsLoaded(true);
+    });
   }, [dispatch]);
 
   return (
-    <>
+    <UserContext.Provider value={{ user, setUser }}>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
@@ -36,7 +42,7 @@ function App() {
           <Route path="/chatters/:id" exact={true} component={SingleChatterPage} />
         </Switch>
       )}
-    </>
+    </UserContext.Provider>
   );
 }
 
