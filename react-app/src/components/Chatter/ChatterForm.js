@@ -17,6 +17,7 @@ const ChatterForm = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ content }),
+      credentials: "include", 
     });
 
     if (response.ok) {

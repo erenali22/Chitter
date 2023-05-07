@@ -7,15 +7,6 @@ from .utils import validation_errors_to_error_messages
 
 chatter_routes = Blueprint('chatters', __name__)
 
-# @chatter_routes.route('/check-auth')
-# def check_auth():
-#     if current_user.is_authenticated:
-#         print("Current User (Check Auth):", current_user)
-#         return {"message": "Authenticated"}
-#     else:
-#         return {"message": "Not Authenticated"}
-
-
 # Get all chatters
 @chatter_routes.route('/')
 def get_chatters():
@@ -51,18 +42,6 @@ def create_chatter():
             user_id=current_user.id,
             content=form.data['content'],
         )
-
-        # # Check if location data is provided and create a location
-        # if form.data['location_name'] and form.data['latitude'] and form.data['longitude']:
-        #     location = Location(
-        #         name=form.data['location_name'],
-        #         latitude=form.data['latitude'],
-        #         longitude=form.data['longitude'],
-        #     )
-        #     db.session.add(location)
-        #     db.session.flush()  # Flush the session to get the location ID
-
-        #     chatter.location_id = location.id
 
         db.session.add(chatter)
         db.session.commit()
