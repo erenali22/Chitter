@@ -7,10 +7,7 @@ import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import ChatterList from './components/Chatter/ChatterList';
 import ChatterForm from './components/Chatter/ChatterForm';
-import ReplyList from './components/Reply/ReplyList';
-import ReplyForm from './components/Reply/ReplyForm';
-import ChatterShow from './components/Chatter/ChatterShow';
-
+import SingleChatterPage from './components/Chatter/SingleChatterPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -36,15 +33,7 @@ function App() {
           <Route path="/chatters/new" exact={true}>
             <ChatterForm />
           </Route>
-          <Route path="/chatters/:chatterId" exact={true} component={(props) => <ReplyList {...props} />} />
-          <Route path="/chatters/:chatterId/replies/new" exact={true}>
-            {(props) => <ReplyForm {...props} />}
-          </Route>
-          <Route path="/chatters/:chatterId/replies/:replyId/edit" exact={true}>
-            {(props) => <ReplyForm {...props} />}
-          </Route>
-          <Route exact path="/chatters/:id" component={ChatterShow} >
-          </Route>
+          <Route path="/chatters/:id" exact={true} component={SingleChatterPage} />
         </Switch>
       )}
     </>

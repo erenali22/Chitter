@@ -4,6 +4,7 @@ from flask_login import login_required, current_user
 from app.models import Chatter, Location, Like, db
 from app.forms import ChatterForm
 from .utils import validation_errors_to_error_messages
+from sqlalchemy.orm import joinedload
 
 chatter_routes = Blueprint('chatters', __name__)
 
@@ -16,7 +17,7 @@ def get_chatters():
 # Get a specific chatter
 @chatter_routes.route('/<int:id>')
 def get_chatter(id):
-    chatter = Chatter.query.get(id)
+    chatter = Chatter.query.options(joinedload(Chatter.user)).get(id)
     if chatter:
         return jsonify(chatter.to_dict())
     else:
