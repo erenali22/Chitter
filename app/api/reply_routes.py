@@ -35,6 +35,7 @@ def get_replies(chatter_id):
         return jsonify(message="Chatter not found", statusCode=404), 404
 
     replies = [reply.to_dict() for reply in chatter.replies]
+    print("Replies fetched:", replies)
     return jsonify(replies), 200
 
 # Update a Reply

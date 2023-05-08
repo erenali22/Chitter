@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
-const ReplyForm = () => {
+const API_BASE_URL = 'http://localhost:5000';
+
+const ReplyForm = ({ chatterId }) => {
     const [content, setContent] = useState('');
     const [errors, setErrors] = useState([]);
-    const { chatterId, replyId } = useParams();
+    const { replyId } = useParams();
     const history = useHistory();
     const isEditing = !!replyId;
 
     useEffect(() => {
       if (isEditing) {
         async function fetchData() {
-          const response = await fetch(`/api/replies/${replyId}`);
+          const response = await fetch(`${API_BASE_URL}/api/replies/${replyId}`);
           if (response.ok) {
             const data = await response.json();
             setContent(data.content);
