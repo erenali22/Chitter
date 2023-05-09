@@ -35,7 +35,6 @@ def get_replies(chatter_id):
         return jsonify(message="Chatter not found", statusCode=404), 404
 
     replies = [reply.to_dict() for reply in chatter.replies]
-    print("Replies fetched:", replies)
     return jsonify(replies), 200
 
 # Update a Reply
@@ -51,14 +50,13 @@ def update_reply(reply_id):
     form.process(data=request.json)
 
     if form.validate_on_submit():
-        content = form.content.data
+        content = form.content.data.strip()
         reply.content = content
         db.session.commit()
 
         return jsonify(message="Reply updated", **reply.to_dict()), 200
     else:
         return jsonify(errors=form.errors), 400
-
 
 # Delete a Reply
 @reply_routes.route('/replies/<int:reply_id>', methods=['DELETE'])

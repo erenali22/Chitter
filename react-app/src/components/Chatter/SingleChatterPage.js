@@ -43,7 +43,11 @@ const SingleChatterPage = ({ match }) => {
         />
       )}
       <ReplyList chatterId={match.params.id} />
-      <ReplyForm chatterId={match.params.id} />
+      <ReplyForm chatterId={match.params.id} onReplySubmit={newReply => {
+        if (chatter) {
+          setChatter({ ...chatter, replies: [...chatter.replies, newReply] });
+        }
+        }} />
     </div>
   );
 };
