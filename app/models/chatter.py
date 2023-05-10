@@ -33,8 +33,8 @@ class Chatter(db.Model):
     content = db.Column(db.String(280), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=True)
-    media_url = db.Column(db.String, nullable=True) #for media upload with S3
-    gif_url = db.Column(db.String, nullable=True) #for Giphy API
+    media_url = db.Column(db.String, nullable=True)  # for media upload with S3
+    gif_url = db.Column(db.String, nullable=True)  # for Giphy API
     location_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('locations.id')), nullable=True)
 
     location = db.relationship('Location', back_populates='chatters')
@@ -48,14 +48,21 @@ class Chatter(db.Model):
     def __repr__(self):
         return f'<Chatter id={self.id} user_id={self.user_id} content="{self.content[:20]}">'
 
+    def get_user(self):
+        from app.models import User  # Import User here to avoid circular imports
+        user = User.query.get(self.user_id)
+        return user.to_dict() if user else None
+
     def to_dict(self):
         return {
-        'id': self.id,
-        'user_id': self.user_id,
-        'content': self.content,
-        'created_at': self.created_at,
-        'updated_at': self.updated_at,
-        'media_url': self.media_url,
-        'gif_url': self.gif_url,
-        'location': self.location.to_dict() if self.location else None
-    }
+            'id': self.id,
+            'user_id': self.user_id,
+            'content': self.content,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'media_url': self.media_url,
+            'gif_url': self.gif_url,
+            'location': self.location.to_dict() if self.location else None,
+            'user': self.get_user()  # Call the new method here
+        }
+

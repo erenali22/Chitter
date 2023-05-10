@@ -4,17 +4,9 @@ from flask_login import login_required, current_user
 from app.models import Chatter, Location, Like, db
 from app.forms import ChatterForm
 from .utils import validation_errors_to_error_messages
+from sqlalchemy.orm import joinedload
 
 chatter_routes = Blueprint('chatters', __name__)
-
-# @chatter_routes.route('/check-auth')
-# def check_auth():
-#     if current_user.is_authenticated:
-#         print("Current User (Check Auth):", current_user)
-#         return {"message": "Authenticated"}
-#     else:
-#         return {"message": "Not Authenticated"}
-
 
 # Get all chatters
 @chatter_routes.route('/')
@@ -25,7 +17,7 @@ def get_chatters():
 # Get a specific chatter
 @chatter_routes.route('/<int:id>')
 def get_chatter(id):
-    chatter = Chatter.query.get(id)
+    chatter = Chatter.query.options(joinedload(Chatter.user)).get(id)
     if chatter:
         return jsonify(chatter.to_dict())
     else:
@@ -52,18 +44,6 @@ def create_chatter():
             content=form.data['content'],
         )
 
-        # # Check if location data is provided and create a location
-        # if form.data['location_name'] and form.data['latitude'] and form.data['longitude']:
-        #     location = Location(
-        #         name=form.data['location_name'],
-        #         latitude=form.data['latitude'],
-        #         longitude=form.data['longitude'],
-        #     )
-        #     db.session.add(location)
-        #     db.session.flush()  # Flush the session to get the location ID
-
-        #     chatter.location_id = location.id
-
         db.session.add(chatter)
         db.session.commit()
         return jsonify(chatter.to_dict()), 201
@@ -75,9 +55,14 @@ def create_chatter():
 @chatter_routes.route('/<int:id>', methods=['PUT'])
 @login_required
 def update_chatter(id):
-    # print(f"Updating Chatter ID: {id}")
-    form = ChatterForm()
+    json_data = request.get_json()
+
+    if 'content' not in json_data:
+        return {'error': 'Content is required'}, 400
+
+    form = ChatterForm(data=json_data)
     form['csrf_token'].data = request.cookies['csrf_token']
+
     if form.validate_on_submit():
         chatter = Chatter.query.get(id)
         if chatter and chatter.user_id == current_user.id:
@@ -87,7 +72,8 @@ def update_chatter(id):
         else:
             # print(f"Chatter not found or unauthorized (Update): {chatter}")
             return {'error': 'Chatter not found or unauthorized'}, 404
-    return {'errors': validation_errors_to_error_messages(form.errors)}, 400
+
+    return {'errors': form.errors}, 400
 
 # Delete a chatter
 @chatter_routes.route('/<int:id>', methods=['DELETE'])

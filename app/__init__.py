@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, abort
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
@@ -46,8 +46,7 @@ db.init_app(app)
 Migrate(app, db)
 
 # Application Security
-CORS(app)
-
+CORS(app, origins=["http://localhost:3000"], supports_credentials=True)
 
 # Since we are deploying with Docker and Flask,
 # we won't be using a buildpack when we deploy to Heroku.
@@ -98,6 +97,7 @@ def react_root(path):
     if path == 'favicon.ico':
         return app.send_from_directory('public', 'favicon.ico')
     return app.send_static_file('index.html')
+
 
 
 @app.errorhandler(404)

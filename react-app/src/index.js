@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import "./index.css";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
@@ -7,8 +8,7 @@ import { ModalProvider, Modal } from "./context/Modal";
 import configureStore from "./store";
 import * as sessionActions from "./store/session";
 import App from "./App";
-
-import "./index.css";
+// import { UserContextProvider } from './contexts/UserContext';
 
 const store = configureStore();
 
@@ -33,9 +33,17 @@ function Root() {
 	);
 }
 
+// ReactDOM.render(
+//   <React.StrictMode>
+//     <UserContextProvider>
+//       <App />
+//     </UserContextProvider>
+//   </React.StrictMode>,
+//   document.getElementById('root')
+// );
 ReactDOM.render(
 	<React.StrictMode>
-		<Root />
+	  <Root />
 	</React.StrictMode>,
-	document.getElementById("root")
-);
+	document.getElementById('root')
+  );
