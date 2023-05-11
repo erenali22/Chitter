@@ -19,7 +19,9 @@ def get_chatters():
 def get_chatter(id):
     chatter = Chatter.query.options(joinedload(Chatter.user)).get(id)
     if chatter:
-        return jsonify(chatter.to_dict())
+        chatter_dict = chatter.to_dict()
+        chatter_dict["replies"] = [reply.to_dict() for reply in chatter.replies]
+        return jsonify(chatter_dict)
     else:
         return {'error': 'Chatter not found'}, 404
 

@@ -26,4 +26,5 @@ class Reply(db.Model):
             'chatter_id': self.chatter_id,
             'created_at': self.created_at.isoformat(),
             'updated_at': self.updated_at.isoformat(),
+            "user": self.user.to_dict()
         }

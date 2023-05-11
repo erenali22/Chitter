@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Reply from './Reply';
 
-const ReplyList = ({ chatterId }) => {
+const ReplyList = ({ chatterId, chatterOwnerId, currentUserId }) => {
   const [replies, setReplies] = useState(null);
 
   useEffect(() => {
@@ -16,15 +16,25 @@ const ReplyList = ({ chatterId }) => {
     fetchData();
   }, [chatterId]);
 
+  const handleDelete = (deletedReplyId) => {
+    setReplies(replies.filter((reply) => reply.id !== deletedReplyId));
+  };
+
   return (
     <div className="reply-list">
       <h1>Replies</h1>
       {replies && replies.map((reply) => (
-        <Reply key={reply.id} reply={reply} />
+        <Reply
+          key={reply.id}
+          reply={reply}
+          onDelete={handleDelete}
+          chatterOwnerId={chatterOwnerId}
+          currentUserId={currentUserId}
+          chatterId={chatterId}
+        />
       ))}
     </div>
   );
 };
 
 export default ReplyList;
-
