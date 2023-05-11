@@ -10,6 +10,9 @@ follows = db.Table(
     db.Column('followed_id', db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')))
 )
 
+if environment == 'production':
+    follows.schema = SCHEMA
+
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
@@ -89,4 +92,3 @@ class User(db.Model, UserMixin):
             'created_at': self.created_at,
             'updated_at': self.updated_at
         }
-

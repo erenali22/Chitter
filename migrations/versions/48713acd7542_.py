@@ -1,19 +1,18 @@
 """empty message
 
-Revision ID: 3fab3befe93c
+Revision ID: 48713acd7542
 Revises:
-Create Date: 2023-04-17 04:05:02.368327
+Create Date: 2023-05-10 19:58:55.319654
 
 """
 from alembic import op
 import sqlalchemy as sa
-
 import os
 environment = os.getenv("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
 
 # revision identifiers, used by Alembic.
-revision = '3fab3befe93c'
+revision = '48713acd7542'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -27,9 +26,6 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('tag')
     )
-    if environment == "production":
-        op.execute(f"ALTER TABLE hashtags SET SCHEMA {SCHEMA};")
-
     op.create_table('locations',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
@@ -37,9 +33,6 @@ def upgrade():
     sa.Column('longitude', sa.Float(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
-    if environment == "production":
-        op.execute(f"ALTER TABLE locations SET SCHEMA {SCHEMA};")
-
     op.create_table('users',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('username', sa.String(length=40), nullable=False),
@@ -54,9 +47,6 @@ def upgrade():
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
     )
-    if environment == "production":
-        op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
-
     op.create_table('chatters',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
@@ -70,9 +60,6 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    if environment == "production":
-        op.execute(f"ALTER TABLE chatters SET SCHEMA {SCHEMA};")
-
     op.create_table('dms',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('sender_id', sa.Integer(), nullable=False),
@@ -83,18 +70,12 @@ def upgrade():
     sa.ForeignKeyConstraint(['sender_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    if environment == "production":
-        op.execute(f"ALTER TABLE dms SET SCHEMA {SCHEMA};")
-
     op.create_table('follows',
     sa.Column('follower_id', sa.Integer(), nullable=True),
     sa.Column('followed_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['followed_id'], ['users.id'], ),
     sa.ForeignKeyConstraint(['follower_id'], ['users.id'], )
     )
-    if environment == "production":
-        op.execute(f"ALTER TABLE follows SET SCHEMA {SCHEMA};")
-
     op.create_table('chatter_hashtags',
     sa.Column('chatter_id', sa.Integer(), nullable=False),
     sa.Column('hashtag_id', sa.Integer(), nullable=False),
@@ -102,9 +83,6 @@ def upgrade():
     sa.ForeignKeyConstraint(['hashtag_id'], ['hashtags.id'], ),
     sa.PrimaryKeyConstraint('chatter_id', 'hashtag_id')
     )
-    if environment == "production":
-        op.execute(f"ALTER TABLE chatter_hashtags SET SCHEMA {SCHEMA};")
-
     op.create_table('likes',
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('chatter_id', sa.Integer(), nullable=False),
@@ -113,9 +91,6 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('user_id', 'chatter_id')
     )
-    if environment == "production":
-        op.execute(f"ALTER TABLE likes SET SCHEMA {SCHEMA};")
-
     op.create_table('rechatters',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
@@ -127,9 +102,6 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    if environment == "production":
-        op.execute(f"ALTER TABLE rechatters SET SCHEMA {SCHEMA};")
-
     op.create_table('replies',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('content', sa.Text(), nullable=False),
@@ -141,9 +113,27 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    # ### end Alembic commands ###
+    if environment == "production":
+        op.execute(f"ALTER TABLE hashtags SET SCHEMA {SCHEMA};")
+    if environment == "production":
+        op.execute(f"ALTER TABLE locations SET SCHEMA {SCHEMA};")
+    if environment == "production":
+        op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
+    if environment == "production":
+        op.execute(f"ALTER TABLE dms SET SCHEMA {SCHEMA};")
+    if environment == "production":
+        op.execute(f"ALTER TABLE chatters SET SCHEMA {SCHEMA};")
+    if environment == "production":
+        op.execute(f"ALTER TABLE follows SET SCHEMA {SCHEMA};")
+    if environment == "production":
+        op.execute(f"ALTER TABLE chatter_hashtags SET SCHEMA {SCHEMA};")
+    if environment == "production":
+        op.execute(f"ALTER TABLE likes SET SCHEMA {SCHEMA};")
+    if environment == "production":
+        op.execute(f"ALTER TABLE rechatters SET SCHEMA {SCHEMA};")
     if environment == "production":
         op.execute(f"ALTER TABLE replies SET SCHEMA {SCHEMA};")
-    # ### end Alembic commands ###
 
 
 def downgrade():

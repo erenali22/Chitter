@@ -50,5 +50,4 @@ def undo():
     undo_rechatters()
     undo_replies()
     undo_followers()
-    undo_dms
     # Add other undo functions here
