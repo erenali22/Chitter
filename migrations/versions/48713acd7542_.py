@@ -95,7 +95,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('chatter_id', sa.Integer(), nullable=False),
-    sa.Column('content', sa.String(length=280), nullable=True),
+    sa.Column('content', sa.String(length=500), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['chatter_id'], ['chatters.id'], ),
