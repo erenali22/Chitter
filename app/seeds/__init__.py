@@ -4,7 +4,6 @@ from .chatters import seed_chatters, undo_chatters
 from .replies import seed_replies, undo_replies
 from .rechatters import seed_rechatters, undo_rechatters
 from .followers import seed_followers, undo_followers
-from .direct_messages import seed_dms, undo_dms
 from app.models.db import db, environment, SCHEMA
 
 # Creates a seed group to hold our commands
@@ -32,8 +31,6 @@ def seed():
             f"TRUNCATE table {SCHEMA}.replies RESTART IDENTITY CASCADE;")
         db.session.execute(
             f"TRUNCATE table {SCHEMA}.follows RESTART IDENTITY CASCADE;")
-        db.session.execute(
-            f"TRUNCATE table {SCHEMA}.DMs RESTART IDENTITY CASCADE;")
         db.session.commit()
 
 
@@ -42,7 +39,6 @@ def seed():
     seed_replies()
     seed_rechatters()
     seed_followers()
-    seed_dms()
     # Add other seed functions here
 
 
