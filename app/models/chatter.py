@@ -30,7 +30,7 @@ class Chatter(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
-    content = db.Column(db.String(280), nullable=False)
+    content = db.Column(db.String(500), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=True)
     media_url = db.Column(db.String, nullable=True)  # for media upload with S3
@@ -65,4 +65,3 @@ class Chatter(db.Model):
             'location': self.location.to_dict() if self.location else None,
             'user': self.get_user()  # Call the new method here
         }
-

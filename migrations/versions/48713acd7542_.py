@@ -50,7 +50,7 @@ def upgrade():
     op.create_table('chatters',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('content', sa.String(length=280), nullable=False),
+    sa.Column('content', sa.String(length=500), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.Column('media_url', sa.String(), nullable=True),

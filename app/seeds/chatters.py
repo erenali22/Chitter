@@ -44,7 +44,7 @@ def seed_chatters(num_chatters=100):
         # Create a new Chatter
         chatter = Chatter(
             user_id=random.randint(1, 40),
-            content=content[:280],
+            content=content[:281],
             location_id=location.id,
             media_url=media_url,
             gif_url=gif_url,
