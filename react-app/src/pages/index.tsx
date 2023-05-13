@@ -52,11 +52,16 @@ export default function Home() {
     authenticate().then((res)=>{
       res.json().then((res)=>{
         console.log(res);
-        if(res?.error || !res?.id){
+        if(res?.error){
           setIsLoaded(false)
         }else{
-        setUserInfo(res)
-          setIsLoaded(true)
+          if(res.id){
+            setUserInfo(res)
+            setIsLoaded(true)
+            console.log(1);
+            
+          }
+       
     
         }
      })
