@@ -51,14 +51,12 @@ export default function Home() {
   const auth = ()=>{
     authenticate().then((res)=>{
       res.json().then((res)=>{
-        console.log(res);
         if(res?.error){
           setIsLoaded(false)
         }else{
           if(res.id){
             setUserInfo(res)
             setIsLoaded(true)
-            console.log(1);
             
           }
        
@@ -119,7 +117,7 @@ export default function Home() {
         </div>
       </div>
       {
-        isLoaded && <Flooter openLogin={openLogin} openSignUp={openSignUp} />
+        !isLoaded && <Flooter openLogin={openLogin} openSignUp={openSignUp} />
       }
       
       <Login isOpen={isLoginOpen} close={closeLogin} />
