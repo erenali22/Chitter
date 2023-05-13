@@ -17,15 +17,16 @@ const Login = ({ isOpen, close }) => {
     console.log(values);
 
     const response = await login(values);
-    console.log(response);
-	if (response.ok) {
-        console.log(response);
-	} else if (response.status < 500) {
-        message.error(response.errors);
-	} else {
-		return ['An error occurred. Please try again.'];
-	}
-    close(false);
+    response.json().then((res)=>{
+      if(res?.error){
+        message.error('error')
+        return
+      }else{
+        message.success('success')
+        close()
+      }
+    })
+	
   };
   return (
     <>

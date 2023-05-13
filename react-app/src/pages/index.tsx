@@ -17,6 +17,7 @@ export default function Home() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignUpOpen, setIsSignUpOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [userInfo,setUserInfo] = useState({})
   const [activeTab, setActiveTab] = useState(menuList[0]?.title);
   const handleLogin = () => {
 
@@ -28,6 +29,7 @@ export default function Home() {
     setIsSignUpOpen(true);
   };
   const closeLogin = () => {
+    auth()
     setIsLoginOpen(false);
   };
   const closeSignUp = () => {
@@ -46,17 +48,35 @@ export default function Home() {
       setError('An error occurred while fetching chatters');
     }
   };
+  const auth = ()=>{
+    authenticate().then((res)=>{
+      res.json().then((res)=>{
+        console.log(res);
+        if(res?.error || !res?.id){
+          setIsLoaded(false)
+        }else{
+        setUserInfo(res)
+          setIsLoaded(true)
+    
+        }
+     })
+        });
+  }
   useEffect(() => {
-    authenticate();
+    auth();
     fetchData();
   }, []);
   const getContent = () => {
     let contentMap = {
-      Explore: <MyList chatters={chatters} />,
+      Explore: <MyList userInfo={userInfo} chatters={chatters} />,
       Chatter: <Chatter />,
     };
     return contentMap[activeTab];
   };
+  useEffect(()=>{
+    setChatters([])
+    fetchData()
+  },[activeTab])
   return (
     <>
 
@@ -93,7 +113,10 @@ export default function Home() {
 
         </div>
       </div>
-      <Flooter openLogin={openLogin} openSignUp={openSignUp} />
+      {
+        isLoaded && <Flooter openLogin={openLogin} openSignUp={openSignUp} />
+      }
+      
       <Login isOpen={isLoginOpen} close={closeLogin} />
       <SignUp isOpen={isSignUpOpen} close={closeSignUp} />
     </>
