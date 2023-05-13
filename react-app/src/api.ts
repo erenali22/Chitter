@@ -47,13 +47,8 @@ return await fetch(`${BASE_URL}/api/auth`, {
 		credentials: 'include',
 	  },
 	});
-	if (response.ok) {
-	  const data = await response.json();
-	  if (data.errors) {
-		return;
-	  }
-	  return data;
-	}
+	   
+	  
   };
 export async function likeChatter(id) {
 	try {

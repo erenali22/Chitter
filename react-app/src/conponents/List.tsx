@@ -22,7 +22,7 @@ const IconText = ({ icon, text }) => (
     {text}
   </Space>
 );
-const MyList = ({ chatters }) => {
+const MyList = ({ chatters,userInfo }) => {
   const [showId, setShowId] = useState(undefined);
   console.log(showId);
 
@@ -67,7 +67,7 @@ const MyList = ({ chatters }) => {
           </List.Item>
           {
             item.id === showId && <div style={{ width: '100%' }}>
-              <MyComment id={item.id} />
+              <MyComment id={item.id} userInfo={userInfo}/>
 
             </div>
           }

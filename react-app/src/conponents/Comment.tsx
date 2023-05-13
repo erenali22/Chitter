@@ -28,7 +28,7 @@ const Editor = ({ id, getAllReplies }) => (
   </>
   );
 
-const MyComment = ({ id }) => {
+const MyComment = ({ id,userInfo }) => {
     const [list, setList] = useState();
     const [isLoading, setIdLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -56,14 +56,14 @@ const MyComment = ({ id }) => {
             <li style={{ color: '#333' }}>
               <Comment
                 style={{ fontSize: 12 }}
-                actions={[<span
+                actions={userInfo?.id === item?.user?.id ? [<span
                   key="comment-list-reply-to-0"
                   onClick={() => {
                     deleteReply(item.id).then(() => {
                         getAllReplies();
                     });
                 }}
-                >delete</span>, <span onClick={() => setIsModalOpen(true)} key="comment-list-reply-to-1">edit</span>]}
+                >delete</span>, <span onClick={() => setIsModalOpen(true)} key="comment-list-reply-to-1">edit</span>] : []}
                 author={item?.user?.username}
                 avatar={getRandomProfilePicture()}
                 content={item.content}
