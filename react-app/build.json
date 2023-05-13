@@ -1,0 +1,8 @@
+{
+    "proxy": {
+        "/api": {
+        "enable": true,
+        "target": "https://chitter2.onrender.com"
+      }
+    }
+  }

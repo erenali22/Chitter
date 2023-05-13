@@ -1,0 +1,22 @@
+[
+  {
+    "path": "Chatter",
+    "id": "Chatter",
+    "file": "Chatter.tsx",
+    "componentName": "chatter",
+    "layout": false,
+    "exports": [
+      "default"
+    ]
+  },
+  {
+    "index": true,
+    "id": "index",
+    "file": "index.tsx",
+    "componentName": "index",
+    "layout": false,
+    "exports": [
+      "default"
+    ]
+  }
+]

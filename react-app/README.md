@@ -1,7 +1,33 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# ice.js 3 Lite Scaffold
 
-Your React App will live here.  You will need to run `npm install` to install all your dependencies before starting up the application. While in development, run this application from this location using `npm start`.
+## Usage
 
-No environment variables are needed to run this application in development, but be sure to set the REACT_APP_BASE_URL environment variable when you deploy!
+```bash
+$ npm install
 
-This app will be automatically built when you push to your main branch on Github.
+$ npm start
+```
+
+## Directories
+
+```md
+.
+├── README.md
+├── ice.config.mts                  # The project config
+├── package.json
+├── .browserslistrc                 # Browsers that we support
+├── public
+│   ├── favicon.ico   
+├── src
+│   ├── app.ts                      # The app entry
+│   ├── assets
+│   │   └── logo.png
+│   ├── document.tsx
+│   ├── pages                       # Pages directory
+│   │   ├── index.module.css
+│   │   └── index.tsx               # Index page entry
+│   └── typings.d.ts
+└── tsconfig.json
+```
+
+For more detail, please visit [docs](https://v3.ice.work/).
