@@ -71,6 +71,7 @@ export default function Home() {
      })
         });
   }
+  console.log('isLoaded',isLoaded);
   useEffect(() => {
     auth();
     fetchData();
