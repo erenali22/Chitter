@@ -14,7 +14,7 @@ export default [
     index: undefined,
     id: 'UserList',
     exact: true,
-    exports: [],
+    exports: ["default"],
   },{
     path: 'Chatter',
     load: () => import(/* webpackChunkName: "p_chatter" */ '@/pages/Chatter'),

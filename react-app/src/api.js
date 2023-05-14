@@ -240,12 +240,8 @@ export async function followUser(userId) {
     },
   });
 
-  if (response.ok) {
-    const data = await response.json();
-    return data;
-  } else {
-    throw new Error(`Error: ${response.statusText}`);
-  }
+    return await response.json();
+
 }
 
 // 取消关注用户
@@ -258,12 +254,9 @@ export async function unfollowUser(userId) {
     },
   });
 
-  if (response.ok) {
-    const data = await response.json();
-    return data;
-  } else {
-    throw new Error(`Error: ${response.statusText}`);
-  }
+ 
+    return await response.json();
+ 
 }
 
 // 获取用户的关注者
