@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react';
 import logo from '@/assets/logo.png';
 import styles from './index.module.css';
-import { NumberOutlined, SendOutlined } from '@ant-design/icons';
+import { LogoutOutlined, NumberOutlined, SendOutlined, ShareAltOutlined } from '@ant-design/icons';
 import MyList from '@/conponents/List';
 import 'antd/dist/antd.css';
-import { Button } from 'antd';
+import { Button, Tabs } from 'antd';
 import Flooter from '@/conponents/Flooter';
 import Login from '@/conponents/Login';
 import { authenticate, getChatters, newChater } from '@/api';
 import SignUp from '@/conponents/SignUp';
 import Chatter from './Chatter';
-import { getUserFeed } from '../api';
-const menuList = [{ title: 'Explore', Icon: <NumberOutlined style={{ fontSize: 28 }} /> }, { title: 'Chatter', Icon: <SendOutlined style={{ fontSize: 28 }} /> }];
+import { getUserFeed, logout } from '../api';
+const menuList = [{ title: 'Explore', Icon: <NumberOutlined style={{ fontSize: 28 }} /> }, 
+{ title: 'Chatter', Icon: <SendOutlined style={{ fontSize: 28 }} /> },
+{ title: 'Login out', Icon: <LogoutOutlined style={{ fontSize: 28 }}/> }
+];
 export default function Home() {
   const [chatters, setChatters] = useState([]);
   const [error, setError] = useState(null);
@@ -37,11 +40,12 @@ export default function Home() {
     setIsSignUpOpen(false);
   };
   const fetchData = async () => {
+    setChatters([])
     try {
       const response = await getChatters();
       if (response.ok) {
         const fetchedChatters = await response.json();
-        setChatters(fetchedChatters);
+        setChatters(Array.isArray(fetchedChatters) ? fetchedChatters :[]);
       } else {
         setError('Failed to fetch chatters');
       }
@@ -72,15 +76,36 @@ export default function Home() {
   }, []);
   const getContent = () => {
     let contentMap = {
-      Explore: <MyList userInfo={userInfo} chatters={chatters} fetchData={fetchData}/>,
+      Explore: <div>
+ <Tabs defaultActiveKey="1" onChange={(value)=>{
+  if(value == 1){
+    fetchData();
+  }else{
+    fetchFeedData()
+  }
+ }}>
+    <Tabs.TabPane tab="For you" key="1">
+    <MyList userInfo={userInfo} chatters={chatters} fetchData={fetchData}/>
+    </Tabs.TabPane>
+    <Tabs.TabPane tab="Following" key="2">
+      <MyList userInfo={userInfo} chatters={chatters} fetchData={fetchFeedData}/>
+    </Tabs.TabPane>
+  </Tabs>
+        </div>,
       Chatter: <Chatter />,
+
     };
     return contentMap[activeTab];
   };
-  useEffect(()=>{
+  const fetchFeedData = ()=>{
     setChatters([])
+    getUserFeed().then((fetchedChatters)=>{
+      setChatters(Array.isArray(fetchedChatters) ? fetchedChatters :[]);
+    })
+
+  }
+  useEffect(()=>{
     fetchData()
-    getUserFeed()
   },[activeTab])
   return (
     <>
@@ -92,7 +117,15 @@ export default function Home() {
             const { Icon } = item || {};
           return (<div
             style={{ display: 'flex', flexDirection: 'row', marginTop: 20, justifyContent: 'center', alignItems: 'center' }}
-            onClick={() => setActiveTab(item.title)}
+            onClick={() => {
+              if(item.title === 'Login out'){
+                logout().then(()=>{
+                  auth();
+                })
+              }else{
+                setActiveTab(item.title)
+              }
+            }}
           >
             <div>
               {Icon}
