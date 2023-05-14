@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import logo from '@/assets/logo.png';
 import styles from './index.module.css';
-import { LogoutOutlined, NumberOutlined, SendOutlined, ShareAltOutlined } from '@ant-design/icons';
+import { LogoutOutlined, NumberOutlined, SendOutlined, ShareAltOutlined, UserOutlined } from '@ant-design/icons';
 import MyList from '@/conponents/List';
 import 'antd/dist/antd.css';
 import { Button, Tabs } from 'antd';
@@ -11,8 +11,10 @@ import { authenticate, getChatters, newChater } from '@/api';
 import SignUp from '@/conponents/SignUp';
 import Chatter from './Chatter';
 import { getUserFeed, logout } from '../api';
+import UserList from './UserList';
 const menuList = [{ title: 'Explore', Icon: <NumberOutlined style={{ fontSize: 28 }} /> }, 
 { title: 'Chatter', Icon: <SendOutlined style={{ fontSize: 28 }} /> },
+{ title: 'UserList', Icon: <UserOutlined style={{ fontSize: 28 }} /> },
 { title: 'Login out', Icon: <LogoutOutlined style={{ fontSize: 28 }}/> }
 ];
 export default function Home() {
@@ -56,22 +58,17 @@ export default function Home() {
   const auth = ()=>{
     authenticate().then((res)=>{
       res.json().then((res)=>{
-        console.log(res);
-        if(res?.error){
+        if(res?.errors){
           setIsLoaded(false)
         }else{
           if(res.id){
             setUserInfo(res)
             setIsLoaded(true)
-            
           }
-       
-    
         }
      })
         });
   }
-  console.log('isLoaded',isLoaded);
   useEffect(() => {
     auth();
     fetchData();
@@ -95,7 +92,7 @@ export default function Home() {
   </Tabs>
         </div>,
       Chatter: <Chatter />,
-
+      UserList:<UserList></UserList>
     };
     return contentMap[activeTab];
   };

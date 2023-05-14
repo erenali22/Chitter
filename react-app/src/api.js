@@ -191,12 +191,8 @@ export async function deleteRechatter(rechatterId) {
     return response.json();
 }
 
-function getUsers() {
-    return fetch(`${BASE_URL}/api/users/`, {
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-    }).then(response => response.json());
+export function getUsers() {
+    return fetch(`${BASE_URL}/api/users/`).then(response => response.json());
 }
 
 function getUser(id) {
@@ -231,3 +227,78 @@ export const logout = () => {
 		},
 	}).then(response => response.json());
 };
+
+
+
+// 关注用户
+export async function followUser(userId) {
+
+  const response = await fetch(`${BASE_URL}/api/follow/${userId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    return data;
+  } else {
+    throw new Error(`Error: ${response.statusText}`);
+  }
+}
+
+// 取消关注用户
+export async function unfollowUser(userId) {
+
+  const response = await fetch(`${BASE_URL}/api/follow/${userId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    return data;
+  } else {
+    throw new Error(`Error: ${response.statusText}`);
+  }
+}
+
+// 获取用户的关注者
+async function getFollowers(userId) {
+  const token = getToken();
+
+  const response = await fetch(`${BASE_URL}/follow/${userId}/followers`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    return data;
+  } else {
+    throw new Error(`Error: ${response.statusText}`);
+  }
+}
+
+// 获取用户关注的人
+export async function getFollowing(userId) {
+
+  const response = await fetch(`${BASE_URL}/api/follow/${userId}/following`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    return data;
+  } else {
+    throw new Error(`Error: ${response.statusText}`);
+  }
+}
