@@ -56,6 +56,7 @@ export default function Home() {
   const auth = ()=>{
     authenticate().then((res)=>{
       res.json().then((res)=>{
+        console.log(res);
         if(res?.error){
           setIsLoaded(false)
         }else{
@@ -100,7 +101,7 @@ export default function Home() {
   const fetchFeedData = ()=>{
     setChatters([])
     getUserFeed().then((fetchedChatters)=>{
-      setChatters(Array.isArray(fetchedChatters) ? fetchedChatters :[]);
+      setChatters(Array.isArray(fetchedChatters?.chatters) ? fetchedChatters?.chatters :[]);
     })
 
   }

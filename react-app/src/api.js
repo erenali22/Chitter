@@ -40,13 +40,13 @@ export const newChater = async (content) => {
         credentials: 'include',
       });
 };
-export const authenticate =  () => {
-return  fetch(`${BASE_URL}/api/auth`, {
+export const authenticate = async () => {
+return await fetch(`${BASE_URL}/api/auth`, {
 	  headers: {
 		'Content-Type': 'application/json',
 		credentials: 'include',
 	  },
-	}).then(response => response.json());
+	});
 	   
 	  
   };
