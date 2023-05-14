@@ -10,6 +10,7 @@ import Login from '@/conponents/Login';
 import { authenticate, getChatters, newChater } from '@/api';
 import SignUp from '@/conponents/SignUp';
 import Chatter from './Chatter';
+import { getUserFeed } from '../api';
 const menuList = [{ title: 'Explore', Icon: <NumberOutlined style={{ fontSize: 28 }} /> }, { title: 'Chatter', Icon: <SendOutlined style={{ fontSize: 28 }} /> }];
 export default function Home() {
   const [chatters, setChatters] = useState([]);
@@ -79,6 +80,7 @@ export default function Home() {
   useEffect(()=>{
     setChatters([])
     fetchData()
+    getUserFeed()
   },[activeTab])
   return (
     <>

@@ -165,7 +165,7 @@ export async function createRechatter(chatterId, content) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ rechatter_id:chatterId, content })
+        body: JSON.stringify({ chatter_id:chatterId, content })
     });
     return response.json();
 }
@@ -191,3 +191,36 @@ export async function deleteRechatter(rechatterId) {
     return response.json();
 }
 
+function getUsers() {
+    return fetch(`${BASE_URL}/api/users/`, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    }).then(response => response.json());
+}
+
+function getUser(id) {
+    return fetch(`${BASE_URL}/api/users/${id}`, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    }).then(response => response.json());
+}
+
+function updateUser(id, data) {
+    return fetch(`${BASE_URL}/api/users/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    }).then(response => response.json());
+}
+
+export function getUserFeed() {
+    return fetch(`${BASE_URL}/api/users/feed`, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    }).then(response => response.json());
+}
