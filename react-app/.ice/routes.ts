@@ -1,5 +1,13 @@
 export default [
   {
+    path: 'Rechatter',
+    load: () => import(/* webpackChunkName: "p_rechatter" */ '@/pages/Rechatter'),
+    componentName: 'rechatter',
+    index: undefined,
+    id: 'Rechatter',
+    exact: true,
+    exports: [],
+  },{
     path: 'Chatter',
     load: () => import(/* webpackChunkName: "p_chatter" */ '@/pages/Chatter'),
     componentName: 'chatter',

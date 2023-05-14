@@ -224,3 +224,10 @@ export function getUserFeed() {
         }
     }).then(response => response.json());
 }
+export const logout = () => {
+	 return fetch(BASE_URL + "/api/auth/logout", {
+		headers: {
+			"Content-Type": "application/json",
+		},
+	}).then(response => response.json());
+};

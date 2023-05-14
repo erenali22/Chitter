@@ -1,5 +1,13 @@
 [
   {
+    "path": "Rechatter",
+    "id": "Rechatter",
+    "file": "Rechatter.jsx",
+    "componentName": "rechatter",
+    "layout": false,
+    "exports": []
+  },
+  {
     "path": "Chatter",
     "id": "Chatter",
     "file": "Chatter.jsx",
