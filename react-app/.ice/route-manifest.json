@@ -5,6 +5,16 @@
     "file": "Rechatter.jsx",
     "componentName": "rechatter",
     "layout": false,
+    "exports": [
+      "default"
+    ]
+  },
+  {
+    "path": "UserList",
+    "id": "UserList",
+    "file": "UserList.jsx",
+    "componentName": "userlist",
+    "layout": false,
     "exports": []
   },
   {

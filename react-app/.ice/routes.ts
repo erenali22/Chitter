@@ -6,6 +6,14 @@ export default [
     index: undefined,
     id: 'Rechatter',
     exact: true,
+    exports: ["default"],
+  },{
+    path: 'UserList',
+    load: () => import(/* webpackChunkName: "p_userlist" */ '@/pages/UserList'),
+    componentName: 'userlist',
+    index: undefined,
+    id: 'UserList',
+    exact: true,
     exports: [],
   },{
     path: 'Chatter',
