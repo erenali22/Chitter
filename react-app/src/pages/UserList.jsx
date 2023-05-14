@@ -40,7 +40,7 @@ const UserList = ({userInfo})=>{
 }
 const MyList = ({list,type=1,getData})=>{
     return <List
-    loading={!list.lenght}
+    loading={!list?.length}
     className="demo-loadmore-list"
     itemLayout="horizontal"
     dataSource={list}
