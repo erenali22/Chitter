@@ -71,7 +71,7 @@ export default function Home() {
   }, []);
   const getContent = () => {
     let contentMap = {
-      Explore: <MyList userInfo={userInfo} chatters={chatters} />,
+      Explore: <MyList userInfo={userInfo} chatters={chatters} fetchData={fetchData}/>,
       Chatter: <Chatter />,
     };
     return contentMap[activeTab];
