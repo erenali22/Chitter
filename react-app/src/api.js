@@ -165,7 +165,7 @@ export async function createRechatter(chatterId, content) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ chatterId, content })
+        body: JSON.stringify({ rechatter_id:chatterId, content })
     });
     return response.json();
 }

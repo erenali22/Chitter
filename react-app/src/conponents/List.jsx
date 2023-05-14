@@ -1,7 +1,7 @@
 import { likeChatter } from '@/api';
 import { formatDate, getRandomProfilePicture } from '@/utils';
 import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
-import { Avatar, List, Space,Modal,Form,Input,Button } from 'antd';
+import { Avatar, List, Space,Modal,Form,Input,Button, message } from 'antd';
 import React, { useState } from 'react';
 import { createRechatter, deleteChatter, updateChatter } from '../api';
 import MyComment from './Comment';
@@ -68,7 +68,8 @@ const MyList = ({ chatters,userInfo,fetchData }) => {
             <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
             <div onClick={() => likeChatter(item.id)}><IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" /></div>,
             <div onClick={() => setShowId((id) => (id === item.id ? undefined : item.id))}><IconText icon={MessageOutlined} text="" key="list-vertical-message" /></div>,
-            <div onClick={() => {deleteChatter().finally(()=>{
+            <div onClick={() => {deleteChatter(item.id).finally(()=>{
+              message.success('success')
               fetchData()
             })}}>delete</div>,
             <div onClick={() => {
@@ -106,6 +107,7 @@ const MyList = ({ chatters,userInfo,fetchData }) => {
           <Form onFinish={(v) => {
             updateChatter(editId, v.content).then(() => {}).finally(() => {
               setEditId(false);
+              message.success('success')
               fetchData();
 
             });
