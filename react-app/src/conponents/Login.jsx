@@ -1,6 +1,5 @@
 import { login } from '@/api';
 import { Button, Modal, Checkbox, Form, Input, message } from 'antd';
-import { log } from 'console';
 import React, { useState } from 'react';
 const Login = ({ isOpen, close }) => {
   const [form] = Form.useForm();

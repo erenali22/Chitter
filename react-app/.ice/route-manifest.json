@@ -2,7 +2,7 @@
   {
     "path": "Chatter",
     "id": "Chatter",
-    "file": "Chatter.tsx",
+    "file": "Chatter.jsx",
     "componentName": "chatter",
     "layout": false,
     "exports": [
@@ -12,7 +12,7 @@
   {
     "index": true,
     "id": "index",
-    "file": "index.tsx",
+    "file": "index.jsx",
     "componentName": "index",
     "layout": false,
     "exports": [
