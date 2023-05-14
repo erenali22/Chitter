@@ -96,8 +96,6 @@ export async function deleteChatter(id) {
 		headers: {
 		  'Content-Type': 'application/json',
 		},
-		// 这里可以添加任何需要发送的数据，例如用户凭证或其他信息
-		// body: JSON.stringify({ key: 'value' })
 	  });
 
 	  if (!response.ok) {
@@ -110,7 +108,7 @@ export async function deleteChatter(id) {
 	}
   }
 
-  export async function updateChatter(id, updatedContent) {
+export async function updateChatter(id, updatedContent) {
 	try {
 	  const response = await fetch(`${BASE_URL}/api/chatters/${id}`, {
 		method: 'PUT',
@@ -161,3 +159,35 @@ export async function deleteReply(replyId) {
     });
     return response.json();
 }
+export async function createRechatter(chatterId, content) {
+    const response = await fetch(`${BASE_URL}/api/rechatters`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ chatterId, content })
+    });
+    return response.json();
+}
+export async function getRechatters(chatterId) {
+    const response = await fetch(`${BASE_URL}/api/chatters/${chatterId}`);
+    return response.json();
+}
+
+export async function updateRechatter(rechatterId, chatterId, content) {
+    const response = await fetch(`${BASE_URL}/api/rechatters/${rechatterId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ chatterId, content })
+    });
+    return response.json();
+}
+export async function deleteRechatter(rechatterId) {
+    const response = await fetch(`${BASE_URL}/api/rechatters/${rechatterId}`, {
+        method: 'DELETE'
+    });
+    return response.json();
+}
+

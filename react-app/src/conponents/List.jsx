@@ -1,8 +1,9 @@
 import { likeChatter } from '@/api';
 import { formatDate, getRandomProfilePicture } from '@/utils';
 import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
-import { Avatar, List, Space } from 'antd';
+import { Avatar, List, Space,Modal,Form,Input,Button } from 'antd';
 import React, { useState } from 'react';
+import { createRechatter, deleteChatter, updateChatter } from '../api';
 import MyComment from './Comment';
 
 const data = Array.from({
@@ -22,12 +23,26 @@ const IconText = ({ icon, text }) => (
     {text}
   </Space>
 );
-const MyList = ({ chatters,userInfo }) => {
+const MyList = ({ chatters,userInfo,fetchData }) => {
   const [showId, setShowId] = useState(undefined);
+  const [editId, setEditId] = useState(false);
+  const [rechatterId,setRechatterId] = useState(undefined)
+  const [rechatterModalVisible, setRechatterModalVisible] = useState(false);
+  const [rechatterContent, setRechatterContent] = useState("");
   console.log(showId);
+  const handleRechatterClick = (content) => {
+    setRechatterModalVisible(true);
+    setRechatterContent(content);
+  };
 
+  const handleRechatterConfirm = async (value) => {
+    await createRechatter(rechatterId, value.content);
+    setRechatterModalVisible(false);
+    fetchData();
+  };
   return (
-    <List
+    <>
+      <List
       itemLayout="vertical"
       size="large"
       // pagination={{
@@ -44,11 +59,22 @@ const MyList = ({ chatters,userInfo }) => {
 
           <List.Item
             key={item?.user?.username}
-            actions={[
+            actions={userInfo?.id !== item?.user?.id ?[
               <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
               <div onClick={() => likeChatter(item.id)}><IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" /></div>,
               <div onClick={() => setShowId((id) => (id === item.id ? undefined : item.id))}><IconText icon={MessageOutlined} text="" key="list-vertical-message" /></div>,
-          ]}
+              <div  onClick={() => {handleRechatterClick(item.content);setRechatterId(item.id)}}>Rechatter</div>
+          ]:[
+            <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
+            <div onClick={() => likeChatter(item.id)}><IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" /></div>,
+            <div onClick={() => setShowId((id) => (id === item.id ? undefined : item.id))}><IconText icon={MessageOutlined} text="" key="list-vertical-message" /></div>,
+            <div onClick={() => {deleteChatter().finally(()=>{
+              fetchData()
+            })}}>delete</div>,
+            <div onClick={() => {
+              setEditId(item.id)
+            }}>edit</div>
+        ]}
             extra={
               <img
                 width={272}
@@ -71,12 +97,51 @@ const MyList = ({ chatters,userInfo }) => {
 
             </div>
           }
-
-
         </div>
 
       )}
     />
+    
+      <Modal title="edit" open={!!editId} onOk={() => {}} onCancel={() => setEditId(false)}>
+          <Form onFinish={(v) => {
+            updateChatter(editId, v.content).then(() => {}).finally(() => {
+              setEditId(false);
+              fetchData();
+
+            });
+          }}
+          >
+            <Form.Item name="content">
+              <Input />
+            </Form.Item>
+            <Form.Item>
+              <Button htmlType="submit" type="primary">
+                Edit
+              </Button>
+            </Form.Item>
+          </Form>
+        </Modal>
+        {
+          rechatterModalVisible &&  <Modal
+          title="Rechatter"
+          visible={rechatterModalVisible}
+          onCancel={() => setRechatterModalVisible(false)}
+        >
+          <Form onFinish={handleRechatterConfirm}>
+            <Form.Item name="content" initialValue={rechatterContent}>
+              <Input />
+            </Form.Item>
+            <Form.Item>
+              <Button htmlType="submit" type="primary">
+                Confirm
+              </Button>
+            </Form.Item>
+          </Form>
+        </Modal>
+        }
+       
+    </>
+  
   );
 };
 export default MyList;
