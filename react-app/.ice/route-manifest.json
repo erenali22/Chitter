@@ -15,7 +15,9 @@
     "file": "UserList.jsx",
     "componentName": "userlist",
     "layout": false,
-    "exports": []
+    "exports": [
+      "default"
+    ]
   },
   {
     "path": "Chatter",

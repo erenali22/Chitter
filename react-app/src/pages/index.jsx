@@ -92,7 +92,7 @@ export default function Home() {
   </Tabs>
         </div>,
       Chatter: <Chatter />,
-      UserList:<UserList></UserList>
+      UserList:<UserList userInfo={userInfo}></UserList>
     };
     return contentMap[activeTab];
   };
