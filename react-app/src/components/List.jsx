@@ -64,13 +64,13 @@ const MyList = ({ chatters, userInfo, fetchData }) => {
             <List.Item
               key={item?.user?.username}
               actions={userInfo?.id !== item?.user?.id ? [
-                <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
-                <div onClick={() => likeChatter(item.id)}><IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" /></div>,
+                <IconText icon={StarOutlined} text={randomNum.toString()} key="list-vertical-star-o" />,
+                <div onClick={() => likeChatter(item.id)}><IconText icon={LikeOutlined} text={randomNum.toString()} key="list-vertical-like-o" /></div>,
                 <div onClick={() => setShowId((id) => (id === item.id ? undefined : item.id))}><IconText icon={MessageOutlined} text="" key="list-vertical-message" /></div>,
                 <div onClick={() => { handleRechatterClick(item.content); setRechatterId(item.id) }}>Rechatter</div>
               ] : [
-                <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
-                <div onClick={() => likeChatter(item.id)}><IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" /></div>,
+                <IconText icon={StarOutlined} text={randomNum.toString()} key="list-vertical-star-o" />,
+                <div onClick={() => likeChatter(item.id)}><IconText icon={LikeOutlined} text={randomNum.toString()} key="list-vertical-like-o" /></div>,
                 <div onClick={() => setShowId((id) => (id === item.id ? undefined : item.id))}><IconText icon={MessageOutlined} text="" key="list-vertical-message" /></div>,
                 <div onClick={() => {
                   deleteChatter(item.id).finally(() => {
