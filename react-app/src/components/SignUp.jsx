@@ -22,7 +22,7 @@ const SignUp = ({ isOpen, close }) => {
 	if (response.errors) {
     message.error(response?.errors?.toString?.()|| 'error');
 	} else {
-    message.success('login was successful！')
+    message.success('Login successfully！')
     close(false);
 
   }

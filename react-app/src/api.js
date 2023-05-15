@@ -49,8 +49,8 @@ return await fetch(`${BASE_URL}/api/auth`, {
 		credentials: 'include',
 	  },
 	});
-	   
-	  
+
+
   };
 export async function likeChatter(id) {
 	try {
@@ -71,7 +71,7 @@ export async function likeChatter(id) {
 	}
   }
 
-  // 取消点赞函数
+  //unlike
   export async function unlikeChatter(id) {
 	try {
 	  const response = await fetch(`${BASE_URL}/api/chatters/${id}/unlike`, {
@@ -119,7 +119,7 @@ export async function updateChatter(id, updatedContent) {
 		body: JSON.stringify({ content: updatedContent }),
 	  });
 	 return response.json()
-	
+
   }
 
   export async function createReply(chatterId, content) {
@@ -224,7 +224,7 @@ export const logout = () => {
 
 
 
-// 关注用户
+//follow
 export async function followUser(userId) {
 
   const response = await fetch(`${BASE_URL}/api/follow/${userId}`, {
@@ -238,7 +238,7 @@ export async function followUser(userId) {
 
 }
 
-// 取消关注用户
+//unfollow
 export async function unfollowUser(userId) {
 
   const response = await fetch(`${BASE_URL}/api/follow/${userId}`, {
@@ -248,12 +248,12 @@ export async function unfollowUser(userId) {
     },
   });
 
- 
+
     return await response.json();
- 
+
 }
 
-// 获取用户的关注者
+//get followers of a user
 async function getFollowers(userId) {
   const token = getToken();
 
@@ -272,7 +272,7 @@ async function getFollowers(userId) {
   }
 }
 
-// 获取用户关注的人
+//get followings of a user
 export async function getFollowing(userId) {
 
   const response = await fetch(`${BASE_URL}/api/follow/${userId}/following`, {

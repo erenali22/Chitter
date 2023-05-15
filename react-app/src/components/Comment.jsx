@@ -17,7 +17,7 @@ const Editor = ({ id, getAllReplies }) => {
         setIsloading(true)
         createReply(id, v.content).then((res) => {
           if(!res?.errors){
-            message.success('Successfully published!');
+            message.success('Successfully posted!');
             form.resetFields()
           getAllReplies();
           }else{
@@ -75,7 +75,7 @@ const MyComment = ({ id, userInfo }) => {
             <Comment
               style={{ fontSize: 12 }}
               actions={userInfo?.id === item?.user?.id ? [<Popconfirm
-                title="Are you sure you want to delete this comment ?"
+                title="Are you sure you want to delete this reply?"
                 okButtonProps={{ loading: pushLoading }}
                 onConfirm={() => {
                   setPushLoading(true)
@@ -119,7 +119,7 @@ const MyComment = ({ id, userInfo }) => {
           updateReply(commentIdRef.current, v.content).then((res) => {
             console.log(res);
             if (!res?.errors) {
-              message.success('Successfully published!');
+              message.success('Successfully posted!');
               form.resetFields()
             } else {
               message.error('error: ' + res?.errors?.toString?.() || '');

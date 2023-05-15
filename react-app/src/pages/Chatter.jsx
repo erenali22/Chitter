@@ -16,7 +16,7 @@ const Chatter = () => {
         newChater(v?.content).then((res) => {
           setIsloading(false)
           if(!res?.errors){
-            message.success('Successfully published!');
+            message.success('Successfully posted!');
             form.resetFields()
           }else{
             message.error('error: ' + res?.errors?.toString?.() || '');

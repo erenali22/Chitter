@@ -11,7 +11,7 @@ const data = Array.from({
 }).map((_, i) => ({
   href: 'https://ant.design',
   title: `${i}`,
-  avatar: 'https://joeschmoe.io/api/v1/random',
+  avatar: 'https://cataas.com/cat',
   description:
     'Ant Design, a design language for background applications, is refined by Ant UED Team.',
   content:
