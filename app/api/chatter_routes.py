@@ -11,8 +11,9 @@ chatter_routes = Blueprint('chatters', __name__)
 # Get all chatters
 @chatter_routes.route('/')
 def get_chatters():
-    chatters = Chatter.query.all()
+    chatters = Chatter.query.order_by(Chatter.created_at.desc()).all()
     return jsonify([chatter.to_dict() for chatter in chatters])
+
 
 # Get a specific chatter
 @chatter_routes.route('/<int:id>')
