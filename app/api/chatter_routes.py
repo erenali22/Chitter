@@ -93,10 +93,10 @@ def delete_chatter(id):
         return {'error': 'Chatter not found or unauthorized'}, 404
 
 # Search chatters by hashtag
-@chatter_routes.route('/hashtags/<hashtag>')
-def search_hashtags(hashtag):
-    chatters = Chatter.query.filter(Chatter.content.like(f'%#{hashtag}%')).all()
-    return jsonify([chatter.to_dict() for chatter in chatters])
+# @chatter_routes.route('/hashtags/<hashtag>')
+# def search_hashtags(hashtag):
+#     chatters = Chatter.query.filter(Chatter.content.like(f'%#{hashtag}%')).all()
+#     return jsonify([chatter.to_dict() for chatter in chatters])
 
 # Like a Chatter
 @chatter_routes.route('/<int:id>/like', methods=['POST'])

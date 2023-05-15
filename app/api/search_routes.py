@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.models import User, Chatter, Hashtag
+from app.models import User, Chatter
 from sqlalchemy import or_
 
 search_routes = Blueprint('search', __name__)
@@ -19,13 +19,13 @@ def search_chatters(query):
     ).all()
     return [chatter.to_dict() for chatter in chatters]
 
-def search_hashtags(query):
-    hashtag = Hashtag.query.filter(Hashtag.tag.ilike(f"%{query}%")).first()
-    if hashtag:
-        chatters = hashtag.chatters
-        return [chatter.to_dict() for chatter in chatters]
-    else:
-        return []
+# def search_hashtags(query):
+#     hashtag = Hashtag.query.filter(Hashtag.tag.ilike(f"%{query}%")).first()
+#     if hashtag:
+#         chatters = hashtag.chatters
+#         return [chatter.to_dict() for chatter in chatters]
+#     else:
+#         return []
 
 # Search route
 @search_routes.route('/', methods=['GET'])
@@ -46,4 +46,3 @@ def search():
         return jsonify({"message": "Invalid search type", "statusCode": 400}), 400
 
     return jsonify(results), 200
-
