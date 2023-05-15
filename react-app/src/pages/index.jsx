@@ -12,7 +12,7 @@ import SignUp from '@/conponents/SignUp';
 import Chatter from './Chatter';
 import { getUserFeed, logout } from '../api';
 import UserList from './UserList';
-const menuList = [{ title: 'Explore', Icon: <NumberOutlined style={{ fontSize: 28 }} /> }, 
+const _menuList = [{ title: 'Explore', Icon: <NumberOutlined style={{ fontSize: 28 }} /> }, 
 { title: 'Chatter', Icon: <SendOutlined style={{ fontSize: 28 }} /> }
 ];
 export default function Home() {
@@ -22,11 +22,13 @@ export default function Home() {
   const [isSignUpOpen, setIsSignUpOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [userInfo,setUserInfo] = useState({})
-  const [activeTab, setActiveTab] = useState(menuList[0]?.title);
+  const [activeTab, setActiveTab] = useState(_menuList[0]?.title);
+  const [menuList,setMenuList]  = useState(_menuList);
   if(isLoaded){
     menuList.concat([
       { title: 'UserList', Icon: <UserOutlined style={{ fontSize: 28 }} /> },
       { title: 'Login out', Icon: <LogoutOutlined style={{ fontSize: 28 }}/> }])
+      setMenuList([...menuList])
   }
   const handleLogin = () => {
 
@@ -62,6 +64,9 @@ export default function Home() {
     authenticate().then((res)=>{
       res.json().then((res)=>{
         if(res?.errors){
+          setMenuList((_menuList)=>{
+            return _menuList.slice(0,2)
+          })
           setIsLoaded(false)
         }else{
           if(res.id){
