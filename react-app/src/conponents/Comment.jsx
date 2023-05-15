@@ -2,7 +2,7 @@
 import { createReply, deleteReply, getReplies, updateReply } from '@/api';
 import { formatDate, getRandomProfilePicture } from '@/utils';
 import { Comment, List, Tooltip, Input, Form, Button, message, Modal } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 const { TextArea } = Input;
 const Editor = ({ id, getAllReplies }) => (
   <>
@@ -32,6 +32,7 @@ const MyComment = ({ id,userInfo }) => {
     const [list, setList] = useState();
     const [isLoading, setIdLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const commentIdRef = useRef()
     const getAllReplies = () => {
         getReplies(id).then((res) => {
             console.log(res);
@@ -63,7 +64,10 @@ const MyComment = ({ id,userInfo }) => {
                         getAllReplies();
                     });
                 }}
-                >delete</span>, <span onClick={() => setIsModalOpen(true)} key="comment-list-reply-to-1">edit</span>] : []}
+                >delete</span>, <span onClick={() => {
+                  setIsModalOpen(true);
+                  commentIdRef.current = item.id
+                }} key="comment-list-reply-to-1">edit</span>] : []}
                 author={item?.user?.username}
                 avatar={getRandomProfilePicture()}
                 content={item.content}
@@ -77,7 +81,7 @@ const MyComment = ({ id,userInfo }) => {
         <Editor id={id} getAllReplies={getAllReplies} />
         <Modal title="edit" open={isModalOpen} onOk={() => {}} onCancel={() => setIsModalOpen(false)}>
           <Form onFinish={(v) => {
-            updateReply(id, v.content).then(() => {}).finally(() => {
+            updateReply(commentIdRef.current, v.content).then(() => {}).finally(() => {
                 setIsModalOpen(false);
                 getAllReplies();
             });
