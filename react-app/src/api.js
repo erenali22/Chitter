@@ -16,7 +16,7 @@ export const login = async ({ email, password }) => {
 	});
 };
 export const signUp = async ({ username, email, password }) => {
-	return await fetch(`${BASE_URL}/api/auth/signup`, {
+	let response = await fetch(`${BASE_URL}/api/auth/signup`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -28,6 +28,7 @@ export const signUp = async ({ username, email, password }) => {
             password,
         }),
 	});
+	return response.json();
 };
 export const newChater = async (content) => {
    let response = await fetch(`${BASE_URL}/api/chatters`, {
