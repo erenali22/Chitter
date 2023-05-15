@@ -85,8 +85,8 @@ const MyList = ({ chatters, userInfo, fetchData }) => {
                 <img
                   width={272}
                   height={168}
-                  alt="logo"
-                  src={item?.media_url || 'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png'}
+                  alt="Img"
+                  src={item?.media_url || 'https://picsum.photos/272/168'}
                 />
               }
             >
