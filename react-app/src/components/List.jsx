@@ -119,7 +119,7 @@ const MyList = ({ chatters, userInfo, fetchData }) => {
           setLoading(true)
           updateChatter(editId, v.content).then((res) => {
             if (!res?.errors) {
-              message.success('Successfully published!');
+              message.success('Successfully edited!');
               setEditId(false);
               fetchData();
 
