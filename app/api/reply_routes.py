@@ -45,9 +45,9 @@ def update_reply(reply_id):
     if not reply or reply.user_id != current_user.id:
         return jsonify(message="Reply not found or not owned by the user", statusCode=404), 404
 
-    form = ReplyForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
-    form.process(data=request.json)
+    data = request.get_json()
+    data['csrf_token'] = request.cookies.get('csrf_token')
+    form = ReplyForm(data=data)
 
     if form.validate_on_submit():
         content = form.content.data.strip()
@@ -57,6 +57,8 @@ def update_reply(reply_id):
         return jsonify(message="Reply updated", **reply.to_dict()), 200
     else:
         return jsonify(errors=form.errors), 400
+
+
 
 # Delete a Reply
 @reply_routes.route('/replies/<int:reply_id>', methods=['DELETE'])
