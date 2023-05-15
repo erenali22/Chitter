@@ -56,7 +56,9 @@ const MyList = ({ chatters, userInfo, fetchData }) => {
         dataSource={chatters}
         style={{ paddingBottom: 100 }}
         loading={!chatters?.length}
-        renderItem={(item) => (
+        renderItem={(item) => {
+          const randomNum = Math.floor(Math.random() * 200) + 1;
+          return (
           <div>
 
             <List.Item
@@ -104,8 +106,8 @@ const MyList = ({ chatters, userInfo, fetchData }) => {
               </div>
             }
           </div>
-
-        )}
+          )
+        }}
       />
 
       <Modal okButtonProps={{ loading }} title="edit" forceRender open={!!editId} onOk={() => {
