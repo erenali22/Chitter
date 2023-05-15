@@ -5,8 +5,9 @@ export default function Document() {
     <html>
       <head>
         <meta charSet="utf-8" />
-        <meta name="description" content="ice.js 3 lite scaffold" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name="description" content="Chitter" />
+        <title>Chitter</title>
+        <link rel="icon" href="/favicon-32x32.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
         <Meta />
         <Title />

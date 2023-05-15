@@ -1,22 +1,37 @@
 import { newChater } from '@/api';
-import { Input, Form, Button, message } from 'antd';
-import React from 'react';
+import { Input, Form, Button, message,Spin } from 'antd';
+import React, { useState } from 'react';
 const { TextArea } = Input;
 
 const Chatter = () => {
-    return (<div style={{ paddingRight: 20 }}> <Form onFinish={(v) => {
-        newChater(v?.content).then(() => {
-            message.success('success!');
-        }).catch(() => {
+  const [form]  = Form.useForm()
+  const [loading,setIsloading] = useState(false)
+    return (<div style={{ paddingRight: 20 }}>
+       <Form form={form} onFinish={(v) => {
+      if(!v?.content){
+        message.error('Content cannot be empty！')
+        return;
+      }
+      setIsloading(true)
+        newChater(v?.content).then((res) => {
+          setIsloading(false)
+          if(!res?.errors){
+            message.success('Successfully published!');
+            form.resetFields()
+          }else{
+            message.error('error: ' + res?.errors?.toString?.() || '');
+          }
+        }).catch((err) => {
             message.error('error');
+            setIsloading(false)
         });
     }}
     >
       <Form.Item name={'content'}>
-        <TextArea rows={4} />
+        <TextArea rows={4} style={{borderRadius:10,marginTop:100}}/>
       </Form.Item>
       <Form.Item>
-        <Button htmlType="submit" type="primary">
+        <Button loading={loading} htmlType="submit" type="primary">
           Add Chatter
         </Button>
       </Form.Item>
