@@ -33,10 +33,11 @@ export default function Home() {
     setIsSignUpOpen(true);
   };
   const closeLogin = () => {
-    auth()
+    auth();
     setIsLoginOpen(false);
   };
   const closeSignUp = () => {
+    auth();
     setIsSignUpOpen(false);
   };
   const fetchData = async () => {
