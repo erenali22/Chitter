@@ -3,6 +3,7 @@ import { Button, Modal, Checkbox, Form, Input, message } from 'antd';
 import React, { useState } from 'react';
 const SignUp = ({ isOpen, close }) => {
   const [form] = Form.useForm();
+  const [loading,setLoading] = useState(false)
   const showModal = () => {
     close(true);
   };
@@ -15,22 +16,20 @@ const SignUp = ({ isOpen, close }) => {
     close(false);
   };
   const onFinish = async (values) => {
-    console.log(values);
-
+    setLoading(true)
     const response = await signUp(values);
-
-	if (response.ok) {
-        console.log(response);
-	} else if (response.status < 500) {
-        message.error(response.errors);
+    setLoading(false)
+	if (response.errors) {
+    message.error(response?.errors?.toString?.()|| 'error');
 	} else {
-		return ['An error occurred. Please try again.'];
-	}
+    message.success('login was successful！')
     close(false);
+
+  }
   };
   return (
     <>
-      <Modal forceRender okText={'Submit'} title="Sign Up Twitter" open={isOpen} onOk={handleOk} onCancel={handleCancel}>
+      <Modal okButtonProps={{loading}} forceRender okText={'Submit'} title="Sign Up Twitter" open={isOpen} onOk={handleOk} onCancel={handleCancel}>
         <Form
           form={form}
           name="basic"

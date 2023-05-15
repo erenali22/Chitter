@@ -3,6 +3,7 @@ import { Button, Modal, Checkbox, Form, Input, message } from 'antd';
 import React, { useState } from 'react';
 const Login = ({ isOpen, close }) => {
   const [form] = Form.useForm();
+  const [loading,setLoading] = useState(false)
   const showModal = () => {
     close(true);
   };
@@ -13,15 +14,15 @@ const Login = ({ isOpen, close }) => {
     close(false);
   };
   const onFinish = async (values) => {
-    console.log(values);
-
+    setLoading(true);
     const response = await login(values);
+    setLoading(false);
     response.json().then((res)=>{
-      if(res?.error){
-        message.error('error')
+      if(res?.errors){
+        message.error(res?.errors?.toString?.()|| 'error');
         return
       }else{
-        message.success('success')
+        message.success('Login succeeded！')
         close()
       }
     })
@@ -29,7 +30,7 @@ const Login = ({ isOpen, close }) => {
   };
   return (
     <>
-      <Modal forceRender okText={'Submit'} title="Login In Twitter" open={isOpen} onOk={handleOk} onCancel={handleCancel}>
+      <Modal okButtonProps={{loading}}  forceRender okText={'Submit'} title="Login In Twitter" open={isOpen} onOk={handleOk} onCancel={handleCancel}>
         <Form
           form={form}
           name="basic"
