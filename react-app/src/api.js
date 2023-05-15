@@ -30,7 +30,7 @@ export const signUp = async ({ username, email, password }) => {
 	});
 };
 export const newChater = async (content) => {
-   return await fetch(`${BASE_URL}/api/chatters`, {
+   let response = await fetch(`${BASE_URL}/api/chatters`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -39,6 +39,7 @@ export const newChater = async (content) => {
         body: JSON.stringify({ content }),
         credentials: 'include',
       });
+	  return response.json();
 };
 export const authenticate = async () => {
 return await fetch(`${BASE_URL}/api/auth`, {
@@ -109,7 +110,6 @@ export async function deleteChatter(id) {
   }
 
 export async function updateChatter(id, updatedContent) {
-	try {
 	  const response = await fetch(`${BASE_URL}/api/chatters/${id}`, {
 		method: 'PUT',
 		headers: {
@@ -117,15 +117,8 @@ export async function updateChatter(id, updatedContent) {
 		},
 		body: JSON.stringify({ content: updatedContent }),
 	  });
-
-	  if (!response.ok) {
-		throw new Error(`HTTP error! status: ${response.status}`);
-	  } else {
-		console.log('Chatter updated successfully');
-	  }
-	} catch (error) {
-	  console.log('Error:', error);
-	}
+	 return response.json()
+	
   }
 
   export async function createReply(chatterId, content) {

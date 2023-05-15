@@ -13,9 +13,7 @@ import Chatter from './Chatter';
 import { getUserFeed, logout } from '../api';
 import UserList from './UserList';
 const menuList = [{ title: 'Explore', Icon: <NumberOutlined style={{ fontSize: 28 }} /> }, 
-{ title: 'Chatter', Icon: <SendOutlined style={{ fontSize: 28 }} /> },
-{ title: 'UserList', Icon: <UserOutlined style={{ fontSize: 28 }} /> },
-{ title: 'Login out', Icon: <LogoutOutlined style={{ fontSize: 28 }}/> }
+{ title: 'Chatter', Icon: <SendOutlined style={{ fontSize: 28 }} /> }
 ];
 export default function Home() {
   const [chatters, setChatters] = useState([]);
@@ -25,6 +23,11 @@ export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [userInfo,setUserInfo] = useState({})
   const [activeTab, setActiveTab] = useState(menuList[0]?.title);
+  if(isLoaded){
+    menuList.concat([
+      { title: 'UserList', Icon: <UserOutlined style={{ fontSize: 28 }} /> },
+      { title: 'Login out', Icon: <LogoutOutlined style={{ fontSize: 28 }}/> }])
+  }
   const handleLogin = () => {
 
   };
