@@ -54,7 +54,7 @@ const Login = ({ isOpen, close }) => {
 
   return (
     <>
-      <Modal okButtonProps={{loading}}  forceRender okText={'Submit'} title="Login In Twitter" open={isOpen} onOk={handleOk} onCancel={handleCancel}>
+      <Modal okButtonProps={{loading}}  forceRender okText={'Submit'} title="Login In Chitter" open={isOpen} onOk={handleOk} onCancel={handleCancel}>
         <Form
           form={form}
           name="basic"
