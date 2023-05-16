@@ -11,7 +11,7 @@ const data = Array.from({
 }).map((_, i) => ({
   href: 'https://ant.design',
   title: `${i}`,
-  avatar: 'https://cataas.com/cat',
+  avatar: 'https://joeschmoe.io/api/v1/random',
   description:
     'Ant Design, a design language for background applications, is refined by Ant UED Team.',
   content:
@@ -56,21 +56,19 @@ const MyList = ({ chatters, userInfo, fetchData }) => {
         dataSource={chatters}
         style={{ paddingBottom: 100 }}
         loading={!chatters?.length}
-        renderItem={(item) => {
-          const randomNum = Math.floor(Math.random() * 200) + 1;
-          return (
+        renderItem={(item) => (
           <div>
 
             <List.Item
               key={item?.user?.username}
               actions={userInfo?.id !== item?.user?.id ? [
-                <IconText icon={StarOutlined} text={randomNum.toString()} key="list-vertical-star-o" />,
-                <div onClick={() => likeChatter(item.id)}><IconText icon={LikeOutlined} text={randomNum.toString()} key="list-vertical-like-o" /></div>,
+                <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
+                <div onClick={() => likeChatter(item.id)}><IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" /></div>,
                 <div onClick={() => setShowId((id) => (id === item.id ? undefined : item.id))}><IconText icon={MessageOutlined} text="" key="list-vertical-message" /></div>,
                 <div onClick={() => { handleRechatterClick(item.content); setRechatterId(item.id) }}>Rechatter</div>
               ] : [
-                <IconText icon={StarOutlined} text={randomNum.toString()} key="list-vertical-star-o" />,
-                <div onClick={() => likeChatter(item.id)}><IconText icon={LikeOutlined} text={randomNum.toString()} key="list-vertical-like-o" /></div>,
+                <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
+                <div onClick={() => likeChatter(item.id)}><IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" /></div>,
                 <div onClick={() => setShowId((id) => (id === item.id ? undefined : item.id))}><IconText icon={MessageOutlined} text="" key="list-vertical-message" /></div>,
                 <div onClick={() => {
                   deleteChatter(item.id).finally(() => {
@@ -87,8 +85,8 @@ const MyList = ({ chatters, userInfo, fetchData }) => {
                 <img
                   width={272}
                   height={168}
-                  alt="Img"
-                  src={item?.media_url || 'https://picsum.photos/272/168'}
+                  alt="logo"
+                  src={item?.media_url || 'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png'}
                 />
               }
             >
@@ -106,8 +104,8 @@ const MyList = ({ chatters, userInfo, fetchData }) => {
               </div>
             }
           </div>
-          )
-        }}
+
+        )}
       />
 
       <Modal okButtonProps={{ loading }} title="edit" forceRender open={!!editId} onOk={() => {
@@ -121,7 +119,7 @@ const MyList = ({ chatters, userInfo, fetchData }) => {
           setLoading(true)
           updateChatter(editId, v.content).then((res) => {
             if (!res?.errors) {
-              message.success('Successfully edited!');
+              message.success('Successfully published!');
               setEditId(false);
               fetchData();
 
