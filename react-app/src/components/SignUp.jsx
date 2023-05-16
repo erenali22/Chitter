@@ -29,7 +29,7 @@ const SignUp = ({ isOpen, close }) => {
   };
   return (
     <>
-      <Modal okButtonProps={{loading}} forceRender okText={'Submit'} title="Sign Up Twitter" open={isOpen} onOk={handleOk} onCancel={handleCancel}>
+      <Modal okButtonProps={{loading}} forceRender okText={'Submit'} title="Sign Up Chitter" open={isOpen} onOk={handleOk} onCancel={handleCancel}>
         <Form
           form={form}
           name="basic"

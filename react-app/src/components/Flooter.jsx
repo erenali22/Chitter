@@ -8,7 +8,7 @@ const Flooter = ({ openLogin, openSignUp }) => {
         fontSize: 15,
         color: '#fff',
       }}
-        >People on Twitter are the first to know.</div>
+        >People on Chitter are the first to know.</div>
       </div>
       <div style={{ marginLeft: 350, height: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
         <Button type="primary" onClick={openLogin} shape="round" style={{ backgroundColor: 'rgb(29, 155, 240)', color: '#fff', borderColor: '#fff' }} size={'large'}>
