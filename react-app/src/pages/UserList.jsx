@@ -26,13 +26,13 @@ const UserList = ({userInfo})=>{
             if(v == 1){
                 getData();
             }else{
-                getFollowingData() 
+                getFollowingData()
             }
          }}>
-    <Tabs.TabPane tab="userList" key="1">
+    <Tabs.TabPane tab="Users List" key="1">
       <MyList list={userList} getData={getData}></MyList>
     </Tabs.TabPane>
-    <Tabs.TabPane tab="FollowingList" key="2">
+    <Tabs.TabPane tab="Following List" key="2">
     <MyList list={followingList} type={2} getData={getFollowingData}></MyList>
     </Tabs.TabPane>
   </Tabs>
