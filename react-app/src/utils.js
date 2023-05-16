@@ -4,7 +4,11 @@ export function formatDate(dateString) {
   const month = String(originalDate.getUTCMonth() + 1).padStart(2, '0');
   const day = String(originalDate.getUTCDate()).padStart(2, '0');
 
-  const formattedDate = `${year}-${month}-${day}`;
+  const hours = String(originalDate.getUTCHours()).padStart(2, '0');
+  const minutes = String(originalDate.getUTCMinutes()).padStart(2, '0');
+  const seconds = String(originalDate.getUTCSeconds()).padStart(2, '0');
+
+  const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   return formattedDate;
 }
 
